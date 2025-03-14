@@ -1,10 +1,16 @@
 import express from "express";
-import { fetchQuotes, saveQuote, getSavedQuotes } from "../../controllers/quote-controller";
+import {
+  fetchQuotesByKeyword,
+  fetchRandomQuote,
+  fetchTodaysQuote,
+  fetchQuotesByAuthor,
+} from "../../controllers/quote-controller";
 
 const router = express.Router();
 
-router.get("/fetch", fetchQuotes); // Fetch from ZenQuotes API
-router.post("/save", saveQuote); // Save to MongoDB
-router.get("/saved", getSavedQuotes); // Get saved quotes
+router.get("/keyword", fetchQuotesByKeyword); // Search quotes by keyword
+router.get("/random", fetchRandomQuote); // Get a random quote
+router.get("/today", fetchTodaysQuote); // Get today's quote
+router.get("/author", fetchQuotesByAuthor); // Search quotes by author
 
 export default router;
