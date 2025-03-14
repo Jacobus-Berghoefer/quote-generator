@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router";
 import auth from '../utils/auth';
 import userIcon from '../../assets/images/user-icon.png';
+import bust from '../../src/assets/bust.JPG';
 import './../App.less';
 
 const Navbar = (props: any) => {
@@ -39,7 +40,7 @@ const Navbar = (props: any) => {
     <div className='custom-navbar'>
       <div className='logo-title'>
         <Link to='/'>
-          <img className='logo' src={sampleLogo} alt="Epic Eats Logo" />
+          <img className='logo' src={bust} alt="greek bust" />
         </Link>
         <h1>Epic Eats</h1>
       </div>

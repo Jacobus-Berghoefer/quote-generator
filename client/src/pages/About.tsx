@@ -1,4 +1,3 @@
-
 import kelly from '../../assets/images/kelly.png';
 import gage from '../../assets/images/gage.png';
 import nick from '../../assets/images/nick-cowboy.jpg';
