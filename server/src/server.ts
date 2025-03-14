@@ -6,6 +6,7 @@ import routes from "./routes";
 import { typeDefs, resolvers } from './schemas/index.js';
 import { connectDB } from './config/connection';
 
+// Define the port the server will run on
 const PORT = process.env.PORT || 3001;
 const app = express();
 const server = new ApolloServer({
@@ -13,6 +14,7 @@ const server = new ApolloServer({
   resolvers,
 });
 
+// Define a function to start the ApolloServer
 const startApolloServer = async () => {
   await server.start();
   
