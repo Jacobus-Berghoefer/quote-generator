@@ -1,10 +1,10 @@
-// Description: This file is the entry point for the server. It initializes the ApolloServer and connects to the database. It also serves the client in production.
-import express from 'express'; // express lets us serve our GraphQL API
-import { ApolloServer } from '@apollo/server'; // ApolloServer is the class we use to set up our server
-import { expressMiddleware } from '@apollo/server/express4'; // expressMiddleware is a helper function that allows us to use ApolloServer with Express
-import path from 'path'; // path is a Node.js module that provides utilities for working with file and directory paths
-import { typeDefs, resolvers } from './schemas/index.js'; // typeDefs and resolvers are imported from the schemas folder
-import db from './config/connection.js'; // db is imported from the connection.js file in the config folder
+import express from 'express';
+import { ApolloServer } from '@apollo/server';
+import { expressMiddleware } from '@apollo/server/express4';
+import path from 'path';
+import routes from "./routes";
+import { typeDefs, resolvers } from './schemas/index.js';
+import { connectDB } from './config/connection';
 
 // Define the port the server will run on
 const PORT = process.env.PORT || 3001;
@@ -23,6 +23,8 @@ const startApolloServer = async () => {
   
   app.use('/graphql', expressMiddleware(server));
 
+  app.use("/api", routes);
+
   // if we're in production, serve client/dist as static assets
   if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../client/dist')));
@@ -32,7 +34,8 @@ const startApolloServer = async () => {
     });
   }
   
-  db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+  //[Replaced with below] db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+  connectDB();
 
   app.listen(PORT, () => {
     console.log(`API server running on port ${PORT}!`);
