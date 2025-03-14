@@ -2,7 +2,6 @@ import { useState, useEffect, type FormEvent, type ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router";
 import auth from '../utils/auth';
-import sampleLogo from '../../assets/images/ee_logo.png';
 import userIcon from '../../assets/images/user-icon.png';
 import './../App.less';
 
@@ -46,8 +45,8 @@ const Navbar = (props: any) => {
       </div>
       <div className='search'>
         <form onSubmit={handleSubmit}>
-          <input type="text" placeholder="Search Epic Eats" onChange={handleChange}></input>
-          <button type="submit">🔍 Eat</button>
+          <input type="text" placeholder="What's on your mind?" onChange={handleChange}></input>
+          <button type="submit">Go</button>
         </form>
       </div>
       <div className='avatar-container'>
@@ -55,9 +54,6 @@ const Navbar = (props: any) => {
           {!loginCheck ? (
             <>
               <Link to='/login' className='login-btn' >Login</Link>
-              {/* <button className='btn' type='button'>
-            <Link to='/signUp'>Sign Up</Link>
-            </button> */}
             </>
           ) : (
             <>
@@ -73,7 +69,7 @@ const Navbar = (props: any) => {
           <img className='avatar' src={userIcon}></img>
         </div>
         <div className='bottom-row'>
-          <Link to='/myEats' className='eats-button' >My Eats</Link>
+          <Link to='/saved' className='eats-button' >My Quotes</Link>
         </div>
       </div>
     </div>

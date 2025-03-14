@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 import App from './App.jsx'
 import Home from './pages/Home.js'
-import SavedBooks from './pages/SavedQuotes'
+import SavedQuotes from './pages/SavedQuotes'
 import Login from './pages/Login.js'
 import Signup from './pages/Signup.js'
 import About from './pages/About.js'
@@ -20,7 +20,7 @@ const router = createBrowserRouter([
         element: <Home />
       }, {
         path: '/saved',
-        element: <SavedBooks />
+        element: <SavedQuotes />
       }, {
         path: '/login',
         element: <Login />
