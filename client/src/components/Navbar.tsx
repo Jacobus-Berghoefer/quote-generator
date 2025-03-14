@@ -2,7 +2,6 @@ import { useState, useEffect, type FormEvent, type ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router";
 import auth from '../utils/auth';
-import userIcon from '../../assets/images/user-icon.png';
 import bust from '../../src/assets/bust.JPG';
 import './../App.less';
 
@@ -42,7 +41,7 @@ const Navbar = (props: any) => {
         <Link to='/'>
           <img className='logo' src={bust} alt="greek bust" />
         </Link>
-        <h1>Epic Eats</h1>
+        <h1>Quotes for Days</h1>
       </div>
       <div className='search'>
         <form onSubmit={handleSubmit}>
@@ -67,7 +66,6 @@ const Navbar = (props: any) => {
               </button>
             </>
           )}
-          <img className='avatar' src={userIcon}></img>
         </div>
         <div className='bottom-row'>
           <Link to='/saved' className='eats-button' >My Quotes</Link>

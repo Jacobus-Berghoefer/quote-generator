@@ -31,12 +31,12 @@ const Home = (_props: any) => {
     const [_error, setError] = useState(false);
 
     useEffect(() => {
-        fetchRandomRecipe()
+        fetchRandomQuote()
     }, [])
 
     // onclick call fetch random recipe
 
-    const fetchRandomRecipe = async () => {
+    const fetchRandomQuote = async () => {
         try {
             const data = await retrieveRandomRecipe()
             setRandomRecipe(data)
