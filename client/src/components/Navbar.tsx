@@ -46,7 +46,7 @@ const Navbar = (props: any) => {
       <div className='search'>
         <form onSubmit={handleSubmit}>
           <input type="text" placeholder="What's on your mind?" onChange={handleChange}></input>
-          <button type="submit">Go</button>
+          <button type="submit"><img className='search-button' src={bust} alt="greek bust" /></button>
         </form>
       </div>
       <div className='avatar-container'>
@@ -68,7 +68,7 @@ const Navbar = (props: any) => {
           )}
         </div>
         <div className='bottom-row'>
-          <Link to='/saved' className='eats-button' >My Quotes</Link>
+          <Link to='/saved' >My Quotes</Link>
         </div>
       </div>
     </div>

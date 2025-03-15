@@ -8,6 +8,7 @@ import SavedQuotes from './pages/SavedQuotes'
 import Login from './pages/Login.js'
 import Signup from './pages/Signup.js'
 import About from './pages/About.js'
+import SearchResults from './pages/SearchResults.js'
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,9 @@ const router = createBrowserRouter([
       }, {
         path: '/about',
         element: <About />
+      }, {
+        path: '/search/',
+        element: <SearchResults />
       }
     ]
   }
