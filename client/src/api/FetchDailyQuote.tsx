@@ -1,7 +1,7 @@
-const retrieveRandomQuote = async () => {
+const retrieveDailyQuote = async () => {
     try {
       const response = await fetch(
-        `/api/quotes/random/`,
+        `/api/quotes/today`,
       );
 
       const result = await response.json();
@@ -17,4 +17,4 @@ const retrieveRandomQuote = async () => {
     }
   };
 
-  export {retrieveRandomQuote};
+  export {retrieveDailyQuote};
