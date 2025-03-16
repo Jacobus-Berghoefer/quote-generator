@@ -4,11 +4,11 @@ export const typeDefs = gql`
 # user model to store user data and their saved quotes
 
   type user{
-  _id: ID!
-  username: String!
-  email: String!
-  password: String!
-  savedQuotes: [Quote]
+    _id: ID!
+    username: String!
+    email: String!
+    password: String!
+    savedQuotes: [Quote]
   }
 
 # Quote model to store quote data
@@ -30,9 +30,7 @@ export const typeDefs = gql`
   # Root query type for all queries
 
   type Query {
-  me: User
-  quotes: [Quote]
-  quote(_id: ID!): Quote
+    me: User
   }
 
 # Root mutation type
@@ -42,6 +40,5 @@ export const typeDefs = gql`
     login(email: String!, password: String!): Auth
     saveQuote(text: String!, author: String!): Quote
     removeQuote(_id: ID!): Quote
-    getRandomQuote: Quote
-    }
+  }
 `;

@@ -1,3 +1,4 @@
-export { User } from './User.js';
-export { Quote } from './Quote.js';
+import { User } from './User.js';
+import { Quote } from './Quote.js';
 
+export { User, Quote };

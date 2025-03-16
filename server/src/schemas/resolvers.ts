@@ -1,16 +1,9 @@
 import { User, Quote } from '../models/index.js';
 import { AuthenticationError } from '../services/auth';
 import { signToken } from '../services/auth';
-import axios from 'axios';
-
-interface ZenQuoteResponse {
-  q: string;
-  a: string;
-  h?: string;
-}
 
 
-const resolvers = {
+export const resolvers = {
   Query: {
     // Get the logged in user with their saved quotes
     me: async (_parent: any, _args: any, context: any) => {
@@ -20,15 +13,7 @@ const resolvers = {
       throw new AuthenticationError('You need to be logged in!');
     },
     // Get all quotes (could be limited to admin in the future)
-    quotes: async () => {
-      return Quote.find().sort({ createdAt: -1 });
-    },
-    // Get a single quote by ID
-    quote: async (_parent: any, { _id }: { _id: string }) => {
-      return Quote.findById(_id);
-    },
   },
-
   Mutation: {
     // Create a new user
     addUser: async (_parent: any, { username, email, password }: { username: string; email: string; password: string }) => {
@@ -88,28 +73,5 @@ const resolvers = {
       }
       throw new AuthenticationError('You need to be logged in!');
     },
-    // Optional: Get a random quote from external API
-    getRandomQuote: async () => {
-      try {
-        // Call ZenQuotes API for random quote
-        const response = await axios.get<ZenQuoteResponse[]>('https://zenquotes.io/api/random');
-        
-        // ZenQuotes returns an array, so we take the first element
-        const quoteData = response.data[0];
-        const { q: quoteText, a: author } = quoteData;
-        
-        // Create quote in our database with properly mapped fields
-        return {
-          text: quoteText,  // Map to your model's 'text' field
-          author,
-          createdAt: new Date().toISOString(),
-        };
-      } catch (error) {
-        console.error('Error fetching random quote:', error);
-        throw new Error('Failed to fetch random quote');
-      }
-    },
   },
 };
-
-export default resolvers;
