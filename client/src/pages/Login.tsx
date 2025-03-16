@@ -1,13 +1,18 @@
 import { useState, type FormEvent, type ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
 import Auth from '../../src/utils/auth';
-// import { login } from '../api/authAPI';
-// import type { UserLogin } from '../interfaces/UserLogin';
+import { LOGIN_USER } from '../graphql/mutations.js';
+import type { UserLogin } from '../models/User.js';
+import { useMutation } from '@apollo/client';
 
-const Login = (_props:any) => {
+
+// Define the Login component
+const Login = () => {
+  const [login, { error }] = useMutation(LOGIN_USER); // login mutation lets us connect to the mongoose database
   const [loginData, setLoginData] = useState<UserLogin>({
     username: '',
     password: '',
+    email: '',
   });
 
   const handleChange = (
@@ -23,8 +28,13 @@ const Login = (_props:any) => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      const data = await login(loginData);
-      Auth.login(data.token);
+      const { data } = await login({
+        variables: { 
+          username: loginData.username, 
+          password: loginData.password 
+        }
+      });
+      Auth.login(data.login.token);
     } catch (err) {
       console.error('Failed to login', err);
     }
@@ -57,6 +67,7 @@ const Login = (_props:any) => {
           <button type='submit'>
             Login
           </button>
+          {error && <p className='error-message'>{error.message}</p>}
           <p>or <Link to='/signup'> Register Now!</Link></p>
         </div>
       </form>
