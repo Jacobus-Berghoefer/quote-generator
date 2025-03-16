@@ -15,7 +15,7 @@ export const typeDefs = gql`
 
   type Quote {
     _id: ID!
-    content: String!
+    text: String!
     author: String!
     createdAt: String!
   }
@@ -24,13 +24,13 @@ export const typeDefs = gql`
 
   type Auth {
     token: ID!
-    user: user
+    user: User
   }
 
   # Root query type for all queries
 
   type Query {
-  me: user
+  me: User
   quotes: [Quote]
   quote(_id: ID!): Quote
   }
@@ -40,7 +40,7 @@ export const typeDefs = gql`
   type Mutation {
     addUser(username: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
-    saveQuote(content: String!, author: String!): Quote
+    saveQuote(text: String!, author: String!): Quote
     removeQuote(_id: ID!): Quote
     getRandomQuote: Quote
     }

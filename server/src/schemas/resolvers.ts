@@ -3,6 +3,13 @@ import { AuthenticationError } from '../services/auth';
 import { signToken } from '../services/auth';
 import axios from 'axios';
 
+interface ZenQuoteResponse {
+  q: string;
+  a: string;
+  h?: string;
+}
+
+
 const resolvers = {
   Query: {
     // Get the logged in user with their saved quotes
@@ -84,13 +91,16 @@ const resolvers = {
     // Optional: Get a random quote from external API
     getRandomQuote: async () => {
       try {
-        // Call external quote API (replace with your chosen API)
-        const response = await axios.get('');
-        const { content, author } = response.data;
+        // Call ZenQuotes API for random quote
+        const response = await axios.get<ZenQuoteResponse[]>('https://zenquotes.io/api/random');
         
-        // Create quote in our database
+        // ZenQuotes returns an array, so we take the first element
+        const quoteData = response.data[0];
+        const { q: quoteText, a: author } = quoteData;
+        
+        // Create quote in our database with properly mapped fields
         return {
-          text: content,
+          text: quoteText,  // Map to your model's 'text' field
           author,
           createdAt: new Date().toISOString(),
         };
