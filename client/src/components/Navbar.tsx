@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router";
 import auth from '../utils/auth';
 // import bust from '../assets/roman_bust.png';
-import './../App.less';
+
 
 const Navbar = (props: any) => {
   const [loginCheck, setLoginCheck] = useState(false);

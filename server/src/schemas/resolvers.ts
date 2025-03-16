@@ -1,7 +1,6 @@
 import { User, Quote } from '../models/index.js';
-import { AuthenticationError } from '../services/auth';
-import { signToken } from '../services/auth';
-
+import { AuthenticationError } from '../services/auth.js';
+import { signToken } from '../services/auth.js';
 
 export const resolvers = {
   Query: {

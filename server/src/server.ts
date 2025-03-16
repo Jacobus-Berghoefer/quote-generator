@@ -2,9 +2,9 @@ import express from 'express';
 import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
 import path from 'path';
-import routes from "./routes";
+import routes from "./routes/index.js";
 import { typeDefs, resolvers } from './schemas/index.js';
-import { connectDB } from './config/connection';
+import { connectDB } from './config/connection.js';
 
 // Define the port the server will run on
 const PORT = process.env.PORT || 3001;

@@ -4,7 +4,7 @@ import {
   fetchRandomQuote,
   fetchTodaysQuote,
   fetchQuotesByAuthor,
-} from "../../controllers/quote-controller";
+} from "../../controllers/quote-controller.js";
 
 const router = express.Router();
 

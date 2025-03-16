@@ -3,7 +3,7 @@ import { gql } from 'apollo-server-express';
 export const typeDefs = gql`
 # user model to store user data and their saved quotes
 
-  type user{
+  type User{
     _id: ID!
     username: String!
     email: String!
