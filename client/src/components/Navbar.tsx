@@ -2,7 +2,7 @@ import { useState, useEffect, type FormEvent, type ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router";
 import auth from '../utils/auth';
-import bust from '../assets/roman_bust.png';
+// import bust from '../assets/roman_bust.png';
 import './../App.less';
 
 const Navbar = (props: any) => {
@@ -39,14 +39,14 @@ const Navbar = (props: any) => {
     <div className='custom-navbar'>
       <div className='logo-title'>
         <Link to='/'>
-          <img className='logo' src={bust} alt="greek bust" />
+          {/* <img className='logo' src={bust} alt="greek bust" /> */}
         </Link>
         <h1>Quotes for Days</h1>
       </div>
       <div className='search'>
         <form onSubmit={handleSubmit}>
           <input type="text" placeholder="What's on your mind?" onChange={handleChange}></input>
-          <button type="submit"><img className='search-button' src={bust} alt="greek bust" /></button>
+          {/* <button type="submit"><img className='search-button' src={bust} alt="greek bust" /></button> */}
         </form>
       </div>
       <div className='avatar-container'>

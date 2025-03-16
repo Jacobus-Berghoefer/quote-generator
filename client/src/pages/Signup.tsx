@@ -1,8 +1,8 @@
 import { useState, type FormEvent, type ChangeEvent } from 'react';
 
-import Auth from '../utils/auth';
-import { signUp } from '../api/signUpAPI';
-import type { UserLogin } from '../interfaces/UserLogin';
+import Auth from '../../src/utils/auth';
+// import { signUp } from '../api/signUpAPI';
+// import type { UserLogin } from '../interfaces/UserLogin';
 
 const SignUp = (_props:any) => {
   const [signUpData, setSignUpData] = useState<UserLogin>({
