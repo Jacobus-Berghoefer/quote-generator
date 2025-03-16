@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 import App from './App.jsx'
 import Home from './pages/Home.js'
-import SavedQuotes from './pages/SavedQuotes'
+import SavedQuotes from './pages/SavedQuotes.js'
 import Login from './pages/Login.js'
 import Signup from './pages/Signup.js'
 import About from './pages/About.js'

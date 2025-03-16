@@ -1,19 +1,14 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-
-interface Item {
-  id: number;
-  title: string;
-  image: string;
-  // Add other properties as needed
-}
+// import { Link } from 'react-router-dom';
+import {Quote} from '../models/Quote';
+import { v4 as uuidv4} from 'uuid';
 
 interface Props {
-  items: Item[];
+  items: Quote[];
 }
 
 const PaginatedList: React.FC<Props> = ({ items }) => {
-  const itemsPerPage = 20;
+  const itemsPerPage = 50;
   const [currentPage, setCurrentPage] = useState(1);
 
   // Calculate the index range for current page
@@ -27,22 +22,20 @@ const PaginatedList: React.FC<Props> = ({ items }) => {
   const handleClick = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
-console.log(items.length)
+// console.log(items.length)
   // Generate page numbers
   const pageNumbers = [];
   for (let i = 1; i <= Math.ceil(items.length / itemsPerPage); i++) {
     pageNumbers.push(i);
   }
-  console.log(pageNumbers);
+  // console.log(pageNumbers);
 
   return (
     <div>
       {currentItems.map(item => (
-        <div className='myeats-card' key={item.id}>
-          <Link to={`/recipe/${item.id}/information`}>
-            <img src={item.image}></img>
-            <p>{item.title}</p>
-          </Link>
+        <div className='quote-result' key={uuidv4()}>
+            <blockquote>{item.q}</blockquote>
+            <p>{item.a}</p>
         </div>
       ))}
       <div>

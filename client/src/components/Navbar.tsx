@@ -1,8 +1,8 @@
 import { useState, useEffect, type FormEvent, type ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router";
-import auth from '../utils/auth';
-import bust from '../../src/assets/bust.JPG';
+// import auth from '../utils/auth';
+import bust from '../assets/bust.JPG';
 import './../App.less';
 
 const Navbar = (props: any) => {
