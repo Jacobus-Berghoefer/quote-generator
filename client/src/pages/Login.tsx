@@ -34,7 +34,11 @@ const Login = () => {
           password: loginData.password 
         }
       });
-      Auth.login(data.login.token);
+      if (data?.login?.token) {
+        Auth.login(data.login.token);
+      } else {
+        console.error('Login successful but no token received');
+      }
     } catch (err) {
       console.error('Failed to login', err);
     }
