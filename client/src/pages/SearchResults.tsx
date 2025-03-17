@@ -3,39 +3,47 @@ import ErrorPage from "../pages/Error";
 import { retrieveKeywordQuotes } from "../api/FetchKeywordQuotes";
 import PaginatedList from "../components/PaginatedList";
 import { useOutletContext } from "react-router-dom";
+import { useLazyQuery } from "@apollo/client";
+import { GET_QUOTES } from "../graphql/queries";
 
 const SearchResults = () => {
     const [quotes, setQuotes] = useState<any[]>([]);
-    const [error, setError] = useState(false);
-    const [loading, setLoading] = useState(true);
+    // const [error, setError] = useState<any>("");
+    // const [loading, setLoading] = useState(true);
     const value: string = useOutletContext();
+    const [getQuotes, { loading, error, data }] = useLazyQuery(GET_QUOTES);
 
     useEffect(() => {
         const fetchSearchResults = async () => {
-            setLoading(true);
-            setError(false);
+            // setLoading(true);
+            // setError(false);
+            // use lazy query to hit zen quotes
+
+            if (loading) return <p>Loading ...</p>;
+            if (error) return `Error! ${error}`;
 
             try {
-                const data = await retrieveKeywordQuotes(value);
-                setQuotes(data);
+                const data = await getQuotes({variables:{value}});
+                setQuotes(data.zenQuotes);
             } catch (err) {
                 console.error('Failed to retrieve quotes:', err);
-                setError(true);
-            } finally {
-                setLoading(false);
+                // setError(err);
+            // } finally {
+            //     setLoading(false);
             }
         };
 
         fetchSearchResults();
     }, [value]);
 
-    if (error) {
-        return <ErrorPage />;
-    }
+    // if (error) {
+    //     console.error(error)
+    //     return <ErrorPage />;
+    // }
 
-    if (loading) {
-        return <div>Searching for "{value}"...</div>;
-    }
+    // if (loading) {
+    //     return <div>Searching for "{value}"...</div>;
+    // }
 
     return (
         <div className="search">

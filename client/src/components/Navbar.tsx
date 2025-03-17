@@ -32,7 +32,7 @@ const Navbar = (props: any) => {
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { value } = e.target;
-    console.log(value)
+    console.log(e.target)
     return props.setSearchTerm(value);
   };
 
