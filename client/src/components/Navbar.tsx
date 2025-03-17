@@ -32,6 +32,7 @@ const Navbar = (props: any) => {
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { value } = e.target;
+    console.log(value)
     return props.setSearchTerm(value);
   };
 
@@ -48,7 +49,7 @@ const Navbar = (props: any) => {
       <div className='search'>
         <form onSubmit={handleSubmit}>
           <input type="text" placeholder="What's on your mind?" onChange={handleChange}></input>
-          {/* <button type="submit"><img className='search-button' src={bust} alt="greek bust" /></button> */}
+          {/* <button type="submit"><img className='search-button' src={roman_bust} alt="greek bust" /></button> */}
         </form>
       </div>
       <div className='avatar-container'>

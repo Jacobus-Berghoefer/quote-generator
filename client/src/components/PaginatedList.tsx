@@ -8,7 +8,7 @@ interface Props {
 }
 
 const PaginatedList: React.FC<Props> = ({ items }) => {
-  const itemsPerPage = 50;
+  const itemsPerPage = 20;
   const [currentPage, setCurrentPage] = useState(1);
 
   // Calculate the index range for current page

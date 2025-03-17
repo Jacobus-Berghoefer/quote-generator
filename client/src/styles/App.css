@@ -15,7 +15,7 @@ body {
   margin-left: 20px;
 }
 
-.logo {
+.logo, .search-button {
   height: 30px;
 }
 

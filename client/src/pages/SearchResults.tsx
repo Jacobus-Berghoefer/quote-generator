@@ -19,7 +19,7 @@ const SearchResults = () => {
                 const data = await retrieveKeywordQuotes(value);
                 setQuotes(data);
             } catch (err) {
-                console.error('Failed to retrieve recipes:', err);
+                console.error('Failed to retrieve quotes:', err);
                 setError(true);
             } finally {
                 setLoading(false);
