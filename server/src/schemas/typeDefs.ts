@@ -40,14 +40,28 @@ export const typeDefs = gql`
   type Query {
     me: User
     quotes: [Quote]
+
+    # Fetch all quotes
     zenQuotes: [ZenQuote]
+
+    # Fetch by Keyword
+    zenQuotesbyKeyword(value: String!): [ZenQuote]
+
+    # Fetch the quote of the day
+    zenQuoteToday: ZenQuote
+
+    # Fetch quotes by author
+    zenQuoteByAuthor(author: String!): [ZenQuote]
+
+    # Fetch a random quote
+    zenQuoteRandom: ZenQuote
   }
 
 # Root mutation type
 
   type Mutation {
     addUser(username: String!, email: String!, password: String!): Auth
-    login(email: String!, password: String!): Auth
+    login(username: String!, password: String!): Auth
     saveQuote(text: String!, author: String!): Quote
     removeQuote(_id: ID!): Quote
   }
