@@ -1,10 +1,11 @@
-import express from 'express';
+import express, { Request } from 'express';
 import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
 import path from 'path';
 import routes from "./routes/index.js";
 import { typeDefs, resolvers } from './schemas/index.js';
 import { connectDB } from './config/connection.js';
+import { authenticateToken } from './services/auth.js';
 
 // Define the port the server will run on
 const PORT = process.env.PORT || 3001;
@@ -12,17 +13,45 @@ const app = express();
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  plugins: [],
 });
 
-// Define a function to start the ApolloServer
+console.log("🛠 Loaded typeDefs:");
+console.log(typeDefs);
+console.log("🛠 Loaded resolvers:");
+console.log(JSON.stringify(resolvers, null, 2));
+
 const startApolloServer = async () => {
   await server.start();
-  
-  app.use(express.urlencoded({ extended: true }));
-  app.use(express.json());
-  
-  app.use('/graphql', expressMiddleware(server));
+  console.log("✅ Apollo Server Started!");
 
+  // Load body-parsing middleware BEFORE GraphQL middleware
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json()); // Ensures req.body is set
+
+  // Attach ApolloServer to Express
+  app.use(
+    "/graphql",
+    expressMiddleware(server, {
+      context: async ({ req }: { req: Request }) => {
+        console.log("✅ GraphQL Context Function Called!");
+        console.log("🔍 Headers received in GraphQL Context:", JSON.stringify(req.headers, null, 2));
+
+        // Authenticate user using auth service
+        const user = authenticateToken({ req });
+
+        // Log authentication status
+        if (user) {
+          console.log("✅ User Authenticated:", user);
+        } else {
+          console.log("❌ No valid token found.");
+        }
+
+        return { user }; // Attach user to context for resolvers
+      },
+    })
+  );  
+  
   app.use("/api", routes);
 
   // if we're in production, serve client/dist as static assets

@@ -13,16 +13,21 @@ interface JwtPayload {
 }
 
 export const authenticateToken = ({ req }: any) => {
+  console.log("🔍 Checking for Authentication Token...");
   // lets the token be sent in the request body, query or headers
   let token = req.body.token || req.query.token || req.headers.authorization;
+
+  console.log("🔍 Raw Token Received:", token || "MISSING");
 
   // extract the token from the header
   if (req.headers.authorization) {
     token = token.split(' ').pop().trim();
+    console.log("✅ Extracted Token:", token);
   }
 
   // if no token then return request object
   if (!token) {
+    console.log("❌ No Token Found in Request.");
     return req;
   }
 
@@ -35,11 +40,15 @@ export const authenticateToken = ({ req }: any) => {
   // Try to verify the token
   try {
     const { data } = jwt.verify(token, secretKey, { maxAge: '24h' }) as JwtPayload;
+    console.log("🔐 Token Decoded Successfully:", data);
     // when the token is valid we set the user to be the user in the payload
     req.user = data;
-  } catch (err) {
-    // If token is not valid, log an error
-    console.log('Invalid token');
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      console.log("❌ JWT Verification Failed:", err.message);
+    } else {
+      console.log("❌ JWT Verification Failed: Unknown error occurred");
+    }
   }
 
   // Return the request object
