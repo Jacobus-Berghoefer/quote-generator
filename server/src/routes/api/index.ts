@@ -1,5 +1,5 @@
 import express from "express";
-import quoteRoutes from "./quote-routes";
+import quoteRoutes from "./quote-routes.js";
 
 const router = express.Router();
 
