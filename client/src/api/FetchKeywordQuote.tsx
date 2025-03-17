@@ -1,7 +1,7 @@
-const retrieveRandomQuote = async () => {
+const retrieveKeywordQuotes = async (searchTerm:string) => {
     try {
       const response = await fetch(
-        `/api/quotes/random/`,
+        `/api/quotes/keyword${searchTerm}`,
       );
 
       const result = await response.json();
@@ -17,4 +17,4 @@ const retrieveRandomQuote = async () => {
     }
   };
 
-  export {retrieveRandomQuote};
+  export {retrieveKeywordQuotes};
