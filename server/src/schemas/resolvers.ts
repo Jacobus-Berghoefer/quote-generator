@@ -94,10 +94,10 @@ export const resolvers = {
     },
 
     // Login existing user
-    login: async (_parent: any, { email, password }: { email: string; password: string }) => {
-      const user = await User.findOne({ email });
+    login: async (_parent: any, { username, password }: { username: string; password: string }) => {
+      const user = await User.findOne({ username });
       if (!user) {
-        throw new AuthenticationError('No user found with this email address');
+        throw new AuthenticationError('No user found with this username');
       }
 
       const correctPw = await user.isCorrectPassword(password);
@@ -106,7 +106,7 @@ export const resolvers = {
       }
 
       const token = signToken(user.username, user.email, user._id);
-      return { token, user };
+      return { token, user: { ...user.toObject(), password: undefined } };
     },
 
     // Save a quote to user's collection
