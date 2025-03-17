@@ -1,4 +1,5 @@
 import { User, Quote, ZenQuote } from '../models/index.js';
+import { IZenQuote } from "../models/ZenQuote.js";
 import { AuthenticationError } from '../services/auth.js';
 import { signToken } from '../services/auth.js';
 import axios from 'axios';  // Import axios for API requests
@@ -34,55 +35,32 @@ export const resolvers = {
 
     // Fetch quotes from ZenQuotes API and store in MongoDB
     zenQuotes: async () => {
-      try {
-        console.log("🔍 Fetching quotes from ZenQuotes API...");
-        const response = await axios.get<ZenQuoteAPIResponse[]>("https://zenquotes.io/api/quotes");
+      return await fetchZenQuotes("quotes");
+    },
 
-        // Process and store quotes in MongoDB while preventing duplicates
-        const storedQuotes = await Promise.all(
-          response.data.map(async (quoteData) => {
-            try {
-              // Safely extract fields from API response
-              const text = quoteData.q;
-              const author = quoteData.a;
-              const characterCount = parseInt(quoteData.c || "0", 10); // Ensure number
-              const htmlFormatted = quoteData.h || ""; // Default to empty string
-              const imageUrl = quoteData.i || null; // Default to null if missing
+  // Fetch today's quote (should be based on the latest quote added today)
+  zenQuoteToday: async () => {
+    const today = new Date().toISOString().split("T")[0]; // Get today's date in YYYY-MM-DD
+    const quotes = await ZenQuote.find({ createdAt: { $gte: new Date(today) } }).sort({ createdAt: -1 });
+    return quotes.length > 0 ? quotes[0] : await fetchZenQuotes("today").then((q) => (q.length > 0 ? q[0] : null));
+  },
 
-              // Check if the quote already exists in MongoDB
-              let existingQuote = await ZenQuote.findOne({ text });
+  // Fetch a truly random quote (select a random document)
+  zenQuoteRandom: async () => {
+    const count = await ZenQuote.countDocuments();
+    const randomIndex = Math.floor(Math.random() * count);
+    const randomQuote = await ZenQuote.findOne().skip(randomIndex);
+    return randomQuote || (await fetchZenQuotes("random").then((q) => (q.length > 0 ? q[0] : null)));
+  },
 
-              if (!existingQuote) {
-                console.log("➕ Adding new quote:", text);
-
-                // Create a new quote in the database
-                existingQuote = await ZenQuote.create({
-                  text,
-                  author,
-                  characterCount,
-                  htmlFormatted,
-                  imageUrl,
-                  createdAt: new Date(),
-                });
-              } else {
-                console.log("✅ Skipping duplicate quote:", text);
-              }
-
-              return existingQuote;
-            } catch (innerError) {
-              console.error("❌ Error processing individual quote:", innerError);
-              return null; // Skip failed entries
-            }
-          })
-        );
-
-        // Filter out null values in case of processing errors
-        return storedQuotes.filter((quote) => quote !== null);
-      } catch (error) {
-        console.error("❌ Error fetching ZenQuotes:", error);
-        throw new Error("Failed to fetch quotes from ZenQuotes API");
+    // Fetch quotes by a specific author
+    zenQuoteByAuthor: async (_parent: any, { author }: { author: string }) => {
+      if (!author || author.trim() === "") {
+        throw new Error("❌ Author name cannot be empty.");
       }
-    }
+    
+      return await fetchZenQuotes("author", author);
+    },    
   },
 
   Mutation: {
@@ -144,6 +122,86 @@ export const resolvers = {
     }
   }
 };
+
+
+// Utility function to fetch ZenQuotes API and store results in MongoDB
+const fetchZenQuotes = async (mode: string, author?: string): Promise<IZenQuote[]> => {
+  try {
+    let url = `https://zenquotes.io/api/${mode}`;
+
+    if (mode === "author" && author) {
+      const formattedAuthor = encodeURIComponent(author.trim());
+      url = `https://zenquotes.io/api/author/${formattedAuthor}`;
+    }
+
+    console.log(`🔍 Fetching ZenQuotes from: ${url}`);
+
+    // Ensure storedQuotes is an array
+    let storedQuotes: IZenQuote[] = [];
+
+    if (mode === "quotes") {
+      storedQuotes = await ZenQuote.find().lean(); // Convert Mongoose documents to plain objects
+    } else if (mode === "random" || mode === "today") {
+      const singleQuote = await ZenQuote.findOne().sort({ createdAt: -1 }).lean();
+      storedQuotes = singleQuote ? [singleQuote] : [];
+    } else if (mode === "author" && author) {
+      storedQuotes = await ZenQuote.find({ author: new RegExp(`^${author}$`, "i") }).lean();
+    }
+
+    if (storedQuotes.length > 0) {
+      console.log(`✅ Returning cached quotes from MongoDB (mode: ${mode}, author: ${author || "N/A"})`);
+      return storedQuotes;
+    }
+
+    // Fetch new quotes from the API
+    const response = await axios.get<ZenQuoteAPIResponse[]>(url);
+
+    if (!response.data || response.data.length === 0) {
+      console.warn(`⚠️ No quotes found for mode: ${mode} (author: ${author || "N/A"})`);
+      return [];
+    }
+
+    // Process and store new quotes in MongoDB
+    const processedQuotes = await Promise.all(
+      response.data.map(async (quoteData): Promise<IZenQuote | null> => {
+        try {
+          const text = quoteData.q;
+          const author = quoteData.a;
+          const characterCount = quoteData.c ? parseInt(quoteData.c, 10) : 0;
+          const htmlFormatted = quoteData.h || null;
+
+          let existingQuote = await ZenQuote.findOne({ text }).lean(); // Ensure plain object
+
+          if (!existingQuote) {
+            console.log("➕ Adding new quote:", text);
+            const newQuote = await ZenQuote.create({
+              text,
+              author,
+              characterCount,
+              htmlFormatted,
+              createdAt: new Date(),
+            });
+
+            return newQuote.toObject() as IZenQuote; // Convert new document to plain object
+          } else {
+            console.log("✅ Skipping duplicate quote:", text);
+            return existingQuote;
+          }
+        } catch (innerError) {
+          console.error("❌ Error processing individual quote:", innerError);
+          return null; // Some entries may be null
+        }
+      })
+    );
+
+    // Properly filter out null values
+    return processedQuotes.filter((quote): quote is IZenQuote => quote !== null);
+  } catch (error) {
+    console.error(`❌ Error fetching ZenQuotes: ${error}`);
+    throw new Error(`Failed to fetch quotes from ZenQuotes API: ${mode}${author ? ` (author: ${author})` : ""}`);
+  }
+};
+
 
 console.log("📌 Resolvers before export:", JSON.stringify(resolvers, null, 2));
 
