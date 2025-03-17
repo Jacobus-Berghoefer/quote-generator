@@ -1,11 +1,14 @@
 import { gql } from '@apollo/client';
 
 export const GET_QUOTES_BY_KEYWORD = gql`
-query ZenQuotesKeyword($keyword: String!) {
-    zenQuoteByKeyword(keyword: $keyword) {
-        [ZenQuote]
-    }
-  }`
+query ZenQuoteByKeyword($keyword: String!) {
+  zenQuoteByKeyword(keyword: $keyword) {
+    text
+    author
+    characterCount
+    htmlFormatted
+  }
+}`
 
 export const GET_TODAY_QUOTE = gql`
 query ZenToday {
@@ -28,7 +31,8 @@ query ZenRandom {
 export const GET_ALL_QUOTES = gql`
 query ZenAll {
     zenQuotes {
-        [ZenQuote]
+        text
+        author
     }
 }
 `

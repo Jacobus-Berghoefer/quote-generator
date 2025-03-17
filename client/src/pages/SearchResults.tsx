@@ -5,6 +5,7 @@ import PaginatedList from "../components/PaginatedList";
 import { useOutletContext } from "react-router-dom";
 import { useLazyQuery } from "@apollo/client";
 import { GET_QUOTES_BY_KEYWORD } from "../graphql/queries";
+import { useLocation } from "react-router-dom";
 
 const SearchResults = () => {
     const [quotes, setQuotes] = useState<any[]>([]);
@@ -12,14 +13,17 @@ const SearchResults = () => {
     // const [loading, setLoading] = useState(true);
     const value: string = useOutletContext();
     const [getQuotesByKeyword, { loading, error, data }] = useLazyQuery(GET_QUOTES_BY_KEYWORD);
+    const {search} = useLocation();
+    console.log(search.split("=")[1])
 
     useEffect(() => {
+        console.log(value)
         const fetchSearchResults = async () => {
             // setLoading(true);
             // setError(false);
             // use lazy query to hit zen quotes
             try {
-                const{data}  = await getQuotesByKeyword({variables:{value}});
+                const{data}  = await getQuotesByKeyword({variables:{keyword:value || search.split("=")[1]}});
                 setQuotes(data.zenQuoteByKeyword);
             } catch (err) {
                 console.error('Failed to retrieve quotes:', err);
@@ -46,7 +50,7 @@ const SearchResults = () => {
     return (
         <div className="search">
             <div>
-            <h2>Search results for "{value}"</h2>
+            <h2>Search results for "{value || search.split("=")[1]}"</h2>
             <div className='eats-container search-results'> 
                 <div className='myeats-card'>
                 <PaginatedList items={quotes} />

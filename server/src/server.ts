@@ -16,11 +16,6 @@ const server = new ApolloServer({
   plugins: [],
 });
 
-console.log("🛠 Loaded typeDefs:");
-console.log(typeDefs);
-console.log("🛠 Loaded resolvers:");
-console.log(JSON.stringify(resolvers, null, 2));
-
 const startApolloServer = async () => {
   await server.start();
   console.log("✅ Apollo Server Started!");
@@ -35,7 +30,6 @@ app.use(express.json()); // Ensures req.body is set
     expressMiddleware(server, {
       context: async ({ req }: { req: Request }) => {
         console.log("✅ GraphQL Context Function Called!");
-        console.log("🔍 Headers received in GraphQL Context:", JSON.stringify(req.headers, null, 2));
 
         // Authenticate user using auth service
         const user = authenticateToken({ req });
