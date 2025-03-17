@@ -19,8 +19,8 @@ const SearchResults = () => {
             // setError(false);
             // use lazy query to hit zen quotes
             try {
-                const data = await getQuotesByKeyword({variables:{value}});
-                setQuotes(data.zenQuotesbyKeyword);
+                const{data}  = await getQuotesByKeyword({variables:{value}});
+                setQuotes(data.zenQuoteByKeyword);
             } catch (err) {
                 console.error('Failed to retrieve quotes:', err);
                 // setError(err);

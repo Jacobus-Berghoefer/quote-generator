@@ -2,9 +2,8 @@ import { gql } from '@apollo/client';
 
 export const GET_QUOTES_BY_KEYWORD = gql`
 query ZenQuotesKeyword($keyword: String!) {
-    zenQuotesbyKeyword(keyword: $keyword) {
-      text
-      author
+    zenQuoteByKeyword(keyword: $keyword) {
+        [ZenQuote]
     }
   }`
 
