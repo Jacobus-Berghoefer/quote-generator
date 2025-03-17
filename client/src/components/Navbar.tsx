@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router";
 import auth from '../utils/auth';
 // import bust from '../assets/roman_bust.png';
-
+import roman_bust from '../assets/roman_bust.png'
 
 const Navbar = (props: any) => {
   const [loginCheck, setLoginCheck] = useState(false);
@@ -39,9 +39,11 @@ const Navbar = (props: any) => {
     <div className='custom-navbar'>
       <div className='logo-title'>
         <Link to='/'>
-          {/* <img className='logo' src={bust} alt="greek bust" /> */}
+          <img className='logo' src={roman_bust} alt="greek bust" />
+          </Link>
+          <Link className="text-decoration-none"to='/'>
+        <h1>QUOTES FOR DAYS</h1>
         </Link>
-        <h1>Quotes for Days</h1>
       </div>
       <div className='search'>
         <form onSubmit={handleSubmit}>
@@ -52,8 +54,10 @@ const Navbar = (props: any) => {
       <div className='avatar-container'>
         <div className='top-row'>
           {!loginCheck ? (
-            <>
-              <Link to='/login' className='login-btn' >Login</Link>
+            <> 
+            <button className="margin-right btn">
+              <Link to='/login' className='login-btn'>Login</Link>
+            </button>
             </>
           ) : (
             <>
@@ -67,9 +71,9 @@ const Navbar = (props: any) => {
             </>
           )}
         </div>
-        <div className='bottom-row'>
+        {/* <div className='bottom-row'>
           <Link to='/saved' >My Quotes</Link>
-        </div>
+        </div> */}
       </div>
     </div>
   );

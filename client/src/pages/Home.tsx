@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import {retrieveRandomQuote} from "../api/FetchRandomQuote";
+import { retrieveDailyQuote } from "../api/FetchDailyQuote";
+// import { retrieveKeywordQuotes } from "../api/FetchKeywordQuote";
 import {Quote} from '../models/Quote'
 
 const Home = () => {
@@ -7,10 +9,19 @@ const Home = () => {
         "q": "",
         "a": ""
     })
+
+    const [dailyQuote, setDailyQuote] = useState<Quote>({
+        "q": "",
+        "a": ''
+    })
     const [_error, setError] = useState(false);
 
     useEffect(() => {
         fetchRandomQuote()
+    }, [randomQuote])
+
+    useEffect(()=> {
+        fetchDailyQuote()
     }, [])
 
     // onclick call fetch random recipe
@@ -25,21 +36,64 @@ const Home = () => {
         }
     }
 
+    const fetchDailyQuote = async () => {
+        try {
+            const data = await retrieveDailyQuote()
+            setDailyQuote(data)
+        } catch (err) {
+            console.error('Failed to retrieve Random Quote', err);
+            setError(true);
+        }
+    }
+
+    // const fetchKeywordQuotes = async () => {
+    //     try {
+    //         const data = await retrieveKeywordQuotes(input)
+    //         setRandomQuote(data)
+    //     } catch (err) {
+    //         console.error('Failed to retrieve Random Quote', err);
+    //         setError(true);
+    //     }
+    // }
+
     return (
-        <>
-            <div className="el"></div>
+      <>
+        <section className="flicker">
+          <div className="el">
+            {/* <blockquote>{dailyQuote.q}</blockquote>
+                <p>{dailyQuote.a}</p> */}
+          </div>
 
+        </section>
 
+        {/* <div className="infinity">
+                <blockquote>{randomQuote.q}</blockquote>
+                <p>{dailyQuote.a}</p>
+                <button className="random-quote-button" onClick={() => fetchRandomQuote()}>Get Another</button>
+            </div> */}
 
+        <section className="falling-lines">
+          <div className="lines">
+            <div className="line"></div>
+            <div className="line"></div>
+            <div className="line"></div>
+            <div className="line"></div>
+            <div className="line"></div>
+          </div>
+          <div className="text-div">
+            <p>WHAT</p>
+            <p>INSPIRES</p>
+            <p>YOU</p>
+            <p>?</p>
+          </div>
+        </section>
 
-
-
-                    {/* <h1>{randomRecipe.title}</h1>
+        {/* <h1>{randomRecipe.title}</h1>
                         {randomRecipe.extendedIngredients.map(item => (
                             <li key={item.id}>{item.original}</li>
                         ))}
                 <button className='meal-button' onClick={() => fetchRandomRecipe()}>Snack</button> */}
-        </>
+      </>
     );
 }
 
