@@ -44,6 +44,9 @@ export const typeDefs = gql`
     # Fetch all quotes
     zenQuotes: [ZenQuote]
 
+    # Fetch by Keyword
+    zenQuoteByKeyword(keyword: String!): [ZenQuote]
+
     # Fetch the quote of the day
     zenQuoteToday: ZenQuote
 
