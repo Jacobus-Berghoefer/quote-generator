@@ -60,6 +60,16 @@ const signUp = () => {
             onChange={handleChange}
           />
         </div>
+        <div>
+          <input
+            placeholder='Email'
+            className='form-input'
+            type='email'
+            name='email'
+            value={signUpData.email || ''}
+            onChange={handleChange}
+          />
+        </div>
         <div className='form-group'>
           <input
             placeholder='Password'
