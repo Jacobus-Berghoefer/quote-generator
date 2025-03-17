@@ -91,7 +91,7 @@ const Home = (props:any) => {
         </section>
 
         <section className="category-btns">
-            <button onClick={() => navigate("search/?=" + props.searchTerm)}>Family</button>
+            <button onClick={() => {navigate("search/?q=Future")}}>Future</button>
             <button>Health</button>
             <button>Love</button>
             <button>Work</button>

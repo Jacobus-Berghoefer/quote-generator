@@ -16,12 +16,6 @@ interface ZenQuoteAPIResponse {
   i?: string; // Author image URL
 }
 
-console.log("📌 Checking Imports in Resolvers.ts...");
-console.log("🔍 User Model:", User);
-console.log("🔍 Quote Model:", Quote);
-console.log("🔍 ZenQuote Model:", ZenQuote);
-console.log("🔍 Auth Function:", typeof signToken);
-
 export const resolvers = {
   Query: {
     // Get the logged-in user with their saved quotes

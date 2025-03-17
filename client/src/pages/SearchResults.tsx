@@ -1,46 +1,56 @@
 import { useState, useEffect } from "react";
-import ErrorPage from "../pages/Error";
-import { retrieveKeywordQuotes } from "../api/FetchKeywordQuotes";
+// import ErrorPage from "../pages/Error";
+// import { retrieveKeywordQuotes } from "../api/FetchKeywordQuotes";
 import PaginatedList from "../components/PaginatedList";
 import { useOutletContext } from "react-router-dom";
+import { useLazyQuery } from "@apollo/client";
+import { GET_QUOTES_BY_KEYWORD } from "../graphql/queries";
+import { useLocation } from "react-router-dom";
 
 const SearchResults = () => {
     const [quotes, setQuotes] = useState<any[]>([]);
-    const [error, setError] = useState(false);
-    const [loading, setLoading] = useState(true);
+    // const [error, setError] = useState<any>("");
+    // const [loading, setLoading] = useState(true);
     const value: string = useOutletContext();
+    const [getQuotesByKeyword, { loading, error, data }] = useLazyQuery(GET_QUOTES_BY_KEYWORD);
+    const {search} = useLocation();
+    console.log(search.split("=")[1])
 
     useEffect(() => {
+        console.log(value)
         const fetchSearchResults = async () => {
-            setLoading(true);
-            setError(false);
-
+            // setLoading(true);
+            // setError(false);
+            // use lazy query to hit zen quotes
             try {
-                const data = await retrieveKeywordQuotes(value);
-                setQuotes(data);
+                const{data}  = await getQuotesByKeyword({variables:{keyword:value || search.split("=")[1]}});
+                setQuotes(data.zenQuoteByKeyword);
             } catch (err) {
-                console.error('Failed to retrieve recipes:', err);
-                setError(true);
-            } finally {
-                setLoading(false);
+                console.error('Failed to retrieve quotes:', err);
+                // setError(err);
+            // } finally {
+            //     setLoading(false);
             }
+            if (loading) return <p>Loading ...</p>;
+            if (error) return `Error! ${error}`;
         };
 
         fetchSearchResults();
     }, [value]);
 
-    if (error) {
-        return <ErrorPage />;
-    }
+    // if (error) {
+    //     console.error(error)
+    //     return <ErrorPage />;
+    // }
 
-    if (loading) {
-        return <div>Searching for "{value}"...</div>;
-    }
+    // if (loading) {
+    //     return <div>Searching for "{value}"...</div>;
+    // }
 
     return (
         <div className="search">
             <div>
-            <h2>Search results for "{value}"</h2>
+            <h2>Search results for "{value || search.split("=")[1]}"</h2>
             <div className='eats-container search-results'> 
                 <div className='myeats-card'>
                 <PaginatedList items={quotes} />
