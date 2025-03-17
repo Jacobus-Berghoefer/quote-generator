@@ -1,14 +1,18 @@
 import { useState, type FormEvent, type ChangeEvent } from 'react';
 
 import Auth from '../../src/utils/auth';
-// import { signUp } from '../api/signUpAPI';
-// import type { UserLogin } from '../interfaces/UserLogin';
+import { ADD_USER } from '../graphql/mutations';
+import { UserLogin } from '../models/User';
+import { useMutation } from '@apollo/client';
 
-const SignUp = (_props:any) => {
+const signUp = () => {
   const [signUpData, setSignUpData] = useState<UserLogin>({
     username: '',
     password: '',
+    email: '',
   });
+
+  const [signUp, { error }] = useMutation(ADD_USER); // mutation for signing up a user
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -23,12 +27,24 @@ const SignUp = (_props:any) => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      const data = await signUp(signUpData);
-      Auth.login(data.token);
-    } catch (err) {
-      console.error('Failed to login', err);
+      const { data } = await signUp({
+        variables: { 
+          username: signUpData.username,
+          email: signUpData.email, 
+          password: signUpData.password 
+        }
+      });
+
+          // Use the data returned from mutation
+    if (data?.addUser?.token) {
+      // Log the user in with the returned token
+      Auth.login(data.addUser.token);
+      // Redirect logic can happen in Auth.login or here
     }
-  };
+  } catch (err) {
+    console.error('Failed to sign up', err);
+  }
+};
 
   return (
     <div className='form-container'>
@@ -58,10 +74,11 @@ const SignUp = (_props:any) => {
           <button className='btn btn-primary' type='submit'>
             Sign Up
           </button>
+          <p className='error-message'>{error && error.message}</p>
         </div>
       </form>
     </div>
   );
 };
 
-export default SignUp;
+export default signUp;
