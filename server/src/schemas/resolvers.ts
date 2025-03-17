@@ -1,8 +1,12 @@
+import dotenv from "dotenv";
+dotenv.config();
 import { User, Quote, ZenQuote } from '../models/index.js';
 import { IZenQuote } from "../models/ZenQuote.js";
 import { AuthenticationError } from '../services/auth.js';
 import { signToken } from '../services/auth.js';
 import axios from 'axios';  // Import axios for API requests
+
+const API_KEY = process.env.ZENQUOTES_API_KEY;
 
 interface ZenQuoteAPIResponse {
   q: string; // Quote text
@@ -68,8 +72,9 @@ export const resolvers = {
         throw new Error("❌ Keyword cannot be empty.");
       }
 
-      return await fetchZenQuotes("keyword", keyword);
+      return await fetchZenQuotes("keyword", undefined, keyword);
     },
+    
   },
 
   Mutation: {
@@ -141,7 +146,7 @@ const fetchZenQuotes = async (mode: string, author?: string, keyword?: string): 
     if (mode === "author" && author) {
       url = `https://zenquotes.io/api/author/${encodeURIComponent(author.trim())}`;
     } else if (mode === "keyword" && keyword) {
-      url = `https://zenquotes.io/api/quotes/&keyword=${encodeURIComponent(keyword.trim())}`;
+      url = `https://zenquotes.io/api/quotes/${API_KEY}&keyword=${encodeURIComponent(keyword.trim())}`;
     }
 
     console.log(`🔍 Fetching ZenQuotes from: ${url}`);
@@ -164,6 +169,7 @@ const fetchZenQuotes = async (mode: string, author?: string, keyword?: string): 
       return storedQuotes;
     }
 
+    // Fetch new quotes from the API
     const response = await axios.get<ZenQuoteAPIResponse[]>(url);
 
     if (!response.data || response.data.length === 0) {
@@ -209,7 +215,6 @@ const fetchZenQuotes = async (mode: string, author?: string, keyword?: string): 
     throw new Error(`Failed to fetch quotes from ZenQuotes API: ${mode}${keyword ? ` (keyword: ${keyword})` : ""}`);
   }
 };
-
 
 console.log("📌 Resolvers before export:", JSON.stringify(resolvers, null, 2));
 
