@@ -1,9 +1,9 @@
-import { gql } from 'apollo-server-express';
+import { gql } from "graphql-tag";
 
 export const typeDefs = gql`
 # user model to store user data and their saved quotes
 
-  type user{
+  type User{
     _id: ID!
     username: String!
     email: String!
@@ -11,13 +11,21 @@ export const typeDefs = gql`
     savedQuotes: [Quote]
   }
 
-# Quote model to store quote data
+# MongoDB Quote model to store quote data
 
   type Quote {
     _id: ID!
     text: String!
     author: String!
     createdAt: String!
+  }
+
+# ZenQuotes API response model
+  type ZenQuote {
+    text: String!
+    author: String!
+    characterCount: Int
+    htmlFormatted: String
   }
 
 # auth type for returning data from authentication mutations
@@ -31,6 +39,8 @@ export const typeDefs = gql`
 
   type Query {
     me: User
+    quotes: [Quote]
+    zenQuotes: [ZenQuote]
   }
 
 # Root mutation type
