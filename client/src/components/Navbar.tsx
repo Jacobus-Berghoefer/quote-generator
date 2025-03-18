@@ -56,6 +56,11 @@ const Navbar = (props: any) => {
         <div className='top-row'>
           {!loginCheck ? (
             <> 
+            {loginCheck && (
+              <div className='bottom-row'>
+                <Link to='/saved'>My Quotes</Link>
+              </div>
+            )}
             <button className="margin-right btn">
               <Link to='/login' className='login-btn'>Login</Link>
             </button>

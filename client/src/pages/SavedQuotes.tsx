@@ -1,9 +1,41 @@
+import { useQuery } from '@apollo/client';
+import auth from '../utils/auth';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { GET_ME } from '../graphql/queries';
+
 const SavedQuotes = () => {
-
+    const { loading, data } = useQuery(GET_ME);
+    const navigate = useNavigate();
+  
+    // Check if user is logged in, redirect to login if not
+    useEffect(() => {
+      if (!auth.loggedIn()) {
+        navigate('/login');
+      }
+    }, [navigate]);
+  
+    if (loading) return <p>Loading...</p>;
+  
+    const userData = data?.me;
+  
     return (
-        <h1></h1>
-    )
-
-}
-
-export default SavedQuotes
+      <section className="saved-quotes">
+        <h2>Your Saved Quotes</h2>
+        {userData && userData.savedQuotes && userData.savedQuotes.length > 0 ? (
+          <div className="saved-quotes-container">
+            {userData.savedQuotes.map((quote: any) => (
+              <div className="quote-result" key={quote._id}>
+                <blockquote>{quote.text}</blockquote>
+                <p>{quote.author}</p>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p>You haven't saved any quotes yet!</p>
+        )}
+      </section>
+    );
+  };
+  
+  export default SavedQuotes;

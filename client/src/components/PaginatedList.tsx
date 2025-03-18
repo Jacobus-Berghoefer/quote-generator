@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 // import { Link } from 'react-router-dom';
 import {Quote} from '../models/Quote';
 import { v4 as uuidv4} from 'uuid';
+import SaveQuoteButton from './SaveQuoteButton';
 
 interface Props {
   items: Quote[];
@@ -36,6 +37,7 @@ const PaginatedList: React.FC<Props> = ({ items }) => {
         <div className='quote-result' key={uuidv4()}>
             <blockquote>{item.text}</blockquote>
             <p>{item.author}</p>
+            <SaveQuoteButton text={String(item.text)} author={String(item.author)} />
         </div>
       ))}
       <div>
