@@ -32,7 +32,6 @@ mutation saveQuote($text: String!, $author: String!) {
     _id
     text
     author
-    createdAt
   }
 }
 `;

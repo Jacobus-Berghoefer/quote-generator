@@ -4,8 +4,9 @@ import auth from "../utils/auth";
 import { useState } from "react";
 
 interface SaveQuoteButtonProps {
+  _id?: string;
   text: string;
-  author: string;
+  author?: string;
 }
 
 const SaveQuoteButton: React.FC<SaveQuoteButtonProps> = ({ text, author }) => {
@@ -22,8 +23,8 @@ const SaveQuoteButton: React.FC<SaveQuoteButtonProps> = ({ text, author }) => {
     try {
       await saveQuote({
         variables: { 
-          text, 
-          author: author || "Unknown" 
+          text,
+          author
         }
       });
       setSaved(true);
