@@ -16,14 +16,13 @@ export const typeDefs = gql`
   type Quote {
     _id: ID!
     text: String!
-    author: String!
-    createdAt: String!
+    author: String
   }
 
 # ZenQuotes API response model
   type ZenQuote {
     text: String!
-    author: String!
+    author: String
     characterCount: Int
     htmlFormatted: String
   }

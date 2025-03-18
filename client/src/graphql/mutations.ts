@@ -27,12 +27,11 @@ mutation addUser($username: String!, $email: String!, $password: String!) {
 `;
 
 export const SAVE_QUOTE = gql`
-mutation saveQuote($_id: String!, $text: String!, $author: String!) {
-  saveQuote(_id: $_id, text: $text, author: $author) {
+mutation saveQuote($text: String!, $author: String!) {
+  saveQuote(text: $text, author: $author) {
     _id
     text
     author
-    createdAt
   }
 }
 `;

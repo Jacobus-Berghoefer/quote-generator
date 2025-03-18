@@ -10,7 +10,7 @@ const API_KEY = process.env.ZENQUOTES_API_KEY;
 
 interface ZenQuoteAPIResponse {
   q: string; // Quote text
-  a: string; // Author
+  a?: string; // Author
   c?: string; // Character count
   h?: string; // Pre-formatted HTML quote
   i?: string; // Author image URL
@@ -96,14 +96,12 @@ export const resolvers = {
     },
 
     // Save a quote to user's collection
-    saveQuote: async (_parent: any, { text, author }: { text: string; author?: string }, context: any) => {
+    saveQuote: async (_parent: any, { text, author}: { text: string; author: string }, context: any) => {
       if (context.user) {
         const quote = await Quote.create({
           text,
           author,
-          createdAt: new Date().toISOString(),
         });
-
         await User.findByIdAndUpdate(
           { _id: context.user._id },
           { $addToSet: { savedQuotes: quote._id } },
