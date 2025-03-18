@@ -1,12 +1,13 @@
 import dotenv from "dotenv";
 dotenv.config();
+console.log("✅ Loaded .env file");
+console.log("🔍 API Key from .env:", process.env.ZENQUOTES_API_KEY);
 import { User, Quote, ZenQuote } from '../models/index.js';
-import { IZenQuote } from "../models/ZenQuote.js";
+//import { IZenQuote } from "../models/ZenQuote.js";
 import { AuthenticationError } from '../services/auth.js';
 import { signToken } from '../services/auth.js';
 import axios from 'axios';  // Import axios for API requests
 
-const API_KEY = process.env.ZENQUOTES_API_KEY;
 
 interface ZenQuoteAPIResponse {
   q: string; // Quote text
@@ -65,9 +66,10 @@ export const resolvers = {
       if (!keyword || keyword.trim() === "") {
         throw new Error("❌ Keyword cannot be empty.");
       }
-
-      return await fetchZenQuotes("keyword", undefined, keyword);
-    },
+    
+      const quotes = await fetchZenQuotes("keyword", undefined, keyword);
+      return quotes; // Now correctly returns IZenQuoteDTO[]
+    },    
     
   },
 
@@ -129,84 +131,72 @@ export const resolvers = {
   }
 };
 
+interface IZenQuoteDTO {
+  text: string;
+  author: string;
+  characterCount: number;
+  htmlFormatted: string;
+  createdAt: Date;
+}
 
 // Utility function to fetch ZenQuotes API and store results in MongoDB
-const fetchZenQuotes = async (mode: string, author?: string, keyword?: string): Promise<IZenQuote[]> => {
-  try {
-    let url = `https://zenquotes.io/api/${mode}`;
+interface IZenQuoteDTO {
+  text: string;
+  author: string;
+  characterCount: number;
+  htmlFormatted: string;
+  createdAt: Date;
+}
 
-    if (mode === "author" && author) {
-      url = `https://zenquotes.io/api/author/${encodeURIComponent(author.trim())}`;
-    } else if (mode === "keyword" && keyword) {
-      url = `https://zenquotes.io/api/quotes/${API_KEY}&keyword=${encodeURIComponent(keyword.trim())}`;
+const fetchZenQuotes = async (mode: string, author?: string, keyword?: string): Promise<IZenQuoteDTO[]> => {
+  try {
+    const API_KEY = process.env.ZENQUOTES_API_KEY;
+    if (!API_KEY) {
+      throw new Error("❌ API Key is missing! Make sure it's set in the .env file.");
     }
+
+    let url = `https://zenquotes.io/api/${mode}?apikey=${API_KEY}`;
 
     console.log(`🔍 Fetching ZenQuotes from: ${url}`);
 
-    let storedQuotes: IZenQuote[] = [];
-
-    if (mode === "quotes") {
-      storedQuotes = await ZenQuote.find().lean();
-    } else if (mode === "random" || mode === "today") {
-      const singleQuote = await ZenQuote.findOne().sort({ createdAt: -1 }).lean();
-      storedQuotes = singleQuote ? [singleQuote] : [];
-    } else if (mode === "author" && author) {
-      storedQuotes = await ZenQuote.find({ author: new RegExp(`^${author}$`, "i") }).lean();
-    } else if (mode === "keyword" && keyword) {
-      storedQuotes = await ZenQuote.find({ text: new RegExp(keyword, "i") }).lean();
+    // Handle author-based quote search
+    if (mode === "author" && author) {
+      url = `https://zenquotes.io/api/author?apikey=${API_KEY}&name=${encodeURIComponent(author.trim())}`;
     }
+    // Handle keyword-based quote search
+    else if (mode === "keyword" && keyword) {
+      url = `https://zenquotes.io/api/quotes/${API_KEY}&keyword=${encodeURIComponent(keyword.trim().toLowerCase())}`;
+    }    
 
-    if (storedQuotes.length > 0) {
-      console.log(`✅ Returning cached quotes from MongoDB (mode: ${mode}, keyword: ${keyword || "N/A"})`);
-      return storedQuotes;
-    }
+    console.log(`🔍 Fetching ZenQuotes from: ${url}`);
 
-    // Fetch new quotes from the API
     const response = await axios.get<ZenQuoteAPIResponse[]>(url);
+    
+    console.log(`🔍 Raw API Response:`, JSON.stringify(response.data, null, 2)); // Debugging log
 
     if (!response.data || response.data.length === 0) {
       console.warn(`⚠️ No quotes found for mode: ${mode} (keyword: ${keyword || "N/A"})`);
       return [];
     }
 
-    const processedQuotes = await Promise.all(
-      response.data.map(async (quoteData): Promise<IZenQuote | null> => {
-        try {
-          const text = quoteData.q;
-          const author = quoteData.a;
-          const characterCount = quoteData.c ? parseInt(quoteData.c, 10) : 0;
-          const htmlFormatted = quoteData.h || null;
+    // Convert API response into IZenQuoteDTO objects
+    const processedQuotes: IZenQuoteDTO[] = response.data.map((quoteData) => ({
+      text: quoteData.q,
+      author: quoteData.a || "Unknown",
+      characterCount: quoteData.c ? parseInt(quoteData.c, 10) : 0,
+      htmlFormatted: quoteData.h || "",
+      createdAt: new Date(),
+    }));
 
-          let existingQuote = await ZenQuote.findOne({ text }).lean();
-
-          if (!existingQuote) {
-            console.log("➕ Adding new quote:", text);
-            const newQuote = await ZenQuote.create({
-              text,
-              author,
-              characterCount,
-              htmlFormatted,
-              createdAt: new Date(),
-            });
-
-            return newQuote.toObject() as IZenQuote;
-          } else {
-            console.log("✅ Skipping duplicate quote:", text);
-            return existingQuote;
-          }
-        } catch (innerError) {
-          console.error("❌ Error processing individual quote:", innerError);
-          return null;
-        }
-      })
-    );
-
-    return processedQuotes.filter((quote): quote is IZenQuote => quote !== null);
+    return processedQuotes;
   } catch (error) {
     console.error(`❌ Error fetching ZenQuotes: ${error}`);
     throw new Error(`Failed to fetch quotes from ZenQuotes API: ${mode}${keyword ? ` (keyword: ${keyword})` : ""}`);
   }
 };
+
+
+
 
 console.log("📌 Resolvers before export:", JSON.stringify(resolvers, null, 2));
 
