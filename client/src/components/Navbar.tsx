@@ -46,19 +46,19 @@ const Navbar = (props: any) => {
         <h1>QUOTES FOR DAYS</h1>
         </Link>
       </div>
-      <div className='search'>
+      {/* <div className='search'>
         <form onSubmit={handleSubmit}>
           <input type="text" placeholder="What's on your mind?" onChange={handleChange}></input>
-          {/* <button type="submit"><img className='search-button' src={roman_bust} alt="greek bust" /></button> */}
+          <button type="submit"><img className='search-button' src={roman_bust} alt="greek bust" /></button>
         </form>
-      </div>
+      </div> */}
       <div className='avatar-container'>
         <div className='top-row'>
           {!loginCheck ? (
             <> 
-            <button className="margin-right btn">
-              <Link to='/login' className='login-btn'>Login</Link>
-            </button>
+
+{/* className="margin-right btn" */}
+            <button onClick={() => {navigate("/login")}}>Login</button>
             </>
           ) : (
             <>
