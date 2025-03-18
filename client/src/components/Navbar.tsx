@@ -62,6 +62,9 @@ const Navbar = (props: any) => {
             </>
           ) : (
             <>
+            <div className='bottom-row'>
+              <Link to='/saved'>My Quotes</Link>
+            </div>
               <button
                 className='login-btn'
                 type='button'

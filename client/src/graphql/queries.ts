@@ -36,3 +36,18 @@ query ZenAll {
     }
 }
 `
+
+export const GET_ME = gql`
+  query me {
+    me {
+      _id
+      username
+      savedQuotes {
+        _id
+        text
+        author
+        createdAt
+      }
+    }
+  }
+`;

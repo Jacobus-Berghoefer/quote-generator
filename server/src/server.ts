@@ -41,7 +41,7 @@ app.use(express.json()); // Ensures req.body is set
           console.log("❌ No valid token found.");
         }
 
-        return { user }; // Attach user to context for resolvers
+        return { ...user }; // Attach user to context for resolvers
       },
     })
   );  

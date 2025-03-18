@@ -25,3 +25,13 @@ mutation addUser($username: String!, $email: String!, $password: String!) {
   }
 }
 `;
+
+export const SAVE_QUOTE = gql`
+mutation saveQuote($text: String!, $author: String!) {
+  saveQuote(text: $text, author: $author) {
+    _id
+    text
+    author
+  }
+}
+`;
