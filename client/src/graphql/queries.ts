@@ -46,7 +46,6 @@ export const GET_ME = gql`
         _id
         text
         author
-        createdAt
       }
     }
   }
