@@ -9,7 +9,7 @@ import { connectDB } from './config/connection.js';
 import { authenticateToken } from './services/auth.js';
 
 
-// ✅ Define __dirname manually for ES modules
+// Define __dirname manually for ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -54,6 +54,7 @@ app.use(express.json()); // Ensures req.body is set
   
   //app.use("/api", routes);
 
+  
   // if we're in production, serve client/dist as static assets
   if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../client/dist')));
