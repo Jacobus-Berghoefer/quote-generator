@@ -1,72 +1,61 @@
-import { useState, useEffect } from "react";
-import {retrieveRandomQuote} from "../api/FetchRandomQuote";
-import { retrieveDailyQuote } from "../api/FetchDailyQuote";
-// import { retrieveKeywordQuotes } from "../api/FetchKeywordQuotes";
-import {Quote} from '../models/Quote'
+import { useEffect, useState} from "react";
+// import {Quote} from '../models/Quote'
 import { useNavigate } from "react-router";
+import { GET_TODAY_QUOTE } from "../graphql/queries";
+import { GET_RANDOM_QUOTE } from "../graphql/queries";
+import { useQuery } from "@apollo/client";
+// import { useEffect } from "react";
+import { useLazyQuery } from "@apollo/client";
 
-const Home = (props:any) => {
+const Home = (_props:any) => {
     let navigate = useNavigate();
-    const [randomQuote, setRandomQuote] = useState<Quote>({
+    const [quote, setQuote] = useState({
+        text: "",
+        author: ""
+    })
+    const [randomQuote, setRandomQuote] = useState({
         text: "",
         author: ""
     })
 
-    const [dailyQuote, setDailyQuote] = useState<Quote>({
-        text: "",
-        author: ''
-    })
-    const [_error, setError] = useState(false);
+    const {data:todayData} = useQuery(GET_TODAY_QUOTE)
+    const [getRandomQuote, { data }]  = useLazyQuery(GET_RANDOM_QUOTE, { fetchPolicy: 'network-only'})
+
+   
 
     useEffect(() => {
-        fetchRandomQuote()
-    }, [randomQuote])
+        getRandomQuote();
+        // setRandomQuote(data)
+      }, []);
 
-    useEffect(()=> {
-        fetchDailyQuote()
-    }, [])
+    useEffect(() => {
+        console.log(todayData)
+        todayData && setQuote(todayData.zenQuoteToday)
+    }, [todayData])
 
-    // onclick call fetch random recipe
-
-    const fetchRandomQuote = async () => {
-        try {
-            const data = await retrieveRandomQuote()
-            setRandomQuote(data)
-        } catch (err) {
-            console.error('Failed to retrieve Random Quote', err);
-            setError(true);
-        }
-    }
-
-    const fetchDailyQuote = async () => {
-        try {
-            const data = await retrieveDailyQuote()
-            setDailyQuote(data)
-        } catch (err) {
-            console.error('Failed to retrieve Random Quote', err);
-            setError(true);
-        }
-    }
-
-    // const fetchKeywordQuotes = async () => {
-    //     try {
-    //         const data = await retrieveKeywordQuotes(input)
-    //         setRandomQuote(data)
-    //     } catch (err) {
-    //         console.error('Failed to retrieve Random Quote', err);
-    //         setError(true);
-    //     }
-    // }
+    useEffect(() => {
+        console.log(todayData)
+        data && setRandomQuote(data.zenQuoteRandom)
+    }, [data])
 
     return (
       <>
+     
         <section className="daily-quote">
             <div>
-                <p>{dailyQuote.text}</p>
-                <p>{dailyQuote.author}</p>
+                <p>{quote.text}</p>
+                <p>{quote.author}</p>
             </div>
         </section>
-
+{data && (
+        <section className="random-quote">
+            <div>
+                <p>{randomQuote.text}</p>
+                <p>{randomQuote.author}</p>
+                <button onClick={() => getRandomQuote()}>Randomize</button>
+            </div>
+        </section>
+)}
         {/* <section className="flicker">
           <div className="el">
             <blockquote>{dailyQuote.q}</blockquote>

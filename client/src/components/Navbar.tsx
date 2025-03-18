@@ -63,8 +63,7 @@ const Navbar = (props: any) => {
           ) : (
             <>
             <div className='bottom-row'>
-              <Link to='/saved'>My Quotes</Link>
-            </div>
+            <button onClick={() => {navigate("/saved")}}>My Quotes</button>
               <button
                 className='login-btn'
                 type='button'
@@ -72,6 +71,7 @@ const Navbar = (props: any) => {
                   auth.logout();
                 }}>Logout
               </button>
+              </div>
             </>
           )}
         </div>
