@@ -4,11 +4,12 @@ import auth from "../utils/auth";
 import { useState } from "react";
 
 interface SaveQuoteButtonProps {
+  _id: string;
   text: string;
   author: string;
 }
 
-const SaveQuoteButton: React.FC<SaveQuoteButtonProps> = ({ text, author }) => {
+const SaveQuoteButton: React.FC<SaveQuoteButtonProps> = ({ _id, text, author }) => {
   const [saveQuote, { loading }] = useMutation(SAVE_QUOTE);
   const [saved, setSaved] = useState(false);
   
@@ -22,8 +23,10 @@ const SaveQuoteButton: React.FC<SaveQuoteButtonProps> = ({ text, author }) => {
     try {
       await saveQuote({
         variables: { 
+          _id,
           text, 
-          author: author || "Unknown" 
+          author: author || "Unknown",
+          
         }
       });
       setSaved(true);
