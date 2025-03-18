@@ -2,17 +2,26 @@ body {
   font-family:'Courier New', Courier, monospace
 }
 
+.layout {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1
+}
+
 .custom-navbar {
   display: flex;
   justify-content: space-between;
-  margin: 20px;
+  margin: 5px;
  
 }
 
 .logo-title {
   display: flex;
   align-items:baseline;
-  margin-left: 20px;
 }
 
 .logo, .search-button {
@@ -40,17 +49,25 @@ input::placeholder {
   font-weight: 100;
 }
 
+.bottom-row {
+  display: flex;
+}
+
 button {
   border: 1px solid #000;
   background-color: #ffffff;
 }
 
 .login-btn {
+  margin-left: 5px;
+}
+
+/* .login-btn {
   text-decoration: none;
   color: #000;
   border: 1px solid #000;
   padding: 5px
-}
+} */
 
                  /* falling lines */
 
@@ -181,7 +198,8 @@ button:hover {
   display: flex;
   justify-content: space-between;
   background-color: #000;
-  margin: 20px 20px 0px 20px;
+  margin: 20px 5px 0px 5px;
+  align-self:
 }
 
 .footer > p {

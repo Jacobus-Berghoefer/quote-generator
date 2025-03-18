@@ -38,8 +38,11 @@ export const resolvers = {
 
   // Fetch today's quote (should be based on the latest quote added today)
   zenQuoteToday: async () => {
+    console.log('test')
     const today = new Date().toISOString().split("T")[0]; // Get today's date in YYYY-MM-DD
     const quotes = await ZenQuote.find({ createdAt: { $gte: new Date(today) } }).sort({ createdAt: -1 });
+    const test = await fetchZenQuotes('today')
+    console.log(test)
     return quotes.length > 0 ? quotes[0] : await fetchZenQuotes("today").then((q) => (q.length > 0 ? q[0] : null));
   },
 

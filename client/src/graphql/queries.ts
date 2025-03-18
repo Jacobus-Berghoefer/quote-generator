@@ -11,7 +11,7 @@ query ZenQuoteByKeyword($keyword: String!) {
 }`
 
 export const GET_TODAY_QUOTE = gql`
-query ZenToday {
+query zenQuoteToday {
     zenQuoteToday {
         text
         author

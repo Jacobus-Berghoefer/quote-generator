@@ -6,6 +6,10 @@ import { useOutletContext } from "react-router-dom";
 import { useLazyQuery } from "@apollo/client";
 import { GET_QUOTES_BY_KEYWORD } from "../graphql/queries";
 import { useLocation } from "react-router-dom";
+import { SAVE_QUOTE } from "../graphql/mutations";
+import Auth from "../utils/auth"
+import { useMutation } from "@apollo/client";
+import { Quote } from "../models/Quote";
 
 const SearchResults = () => {
     const [quotes, setQuotes] = useState<any[]>([]);
@@ -46,6 +50,38 @@ const SearchResults = () => {
     // if (loading) {
     //     return <div>Searching for "{value}"...</div>;
     // }
+
+
+    const [saveQuote] = useMutation(SAVE_QUOTE);
+    // create function to handle saving a book to our database
+    const handleSaveQuote = async (quoteIdArg: string) => {
+      // find the book in `searchedBooks` state by the matching id
+      const quoteToSave: Quote = quotes.find((quote) => quote._id === quoteIdArg)!;
+  
+      // get token
+      const token = Auth.loggedIn() ? Auth.getToken() : null;
+  
+      if (!token) {
+        return false;
+      }
+  
+      try {
+        // const response = await saveBook(bookToSave, token);
+            const {data} = await saveQuote({
+              variables: { quoteToSave }
+            })
+        if (!data.ok) {
+          throw new Error('something went wrong!');
+        }
+  
+        // if book successfully saves to user's account, save book id to state
+        // setSavedBookIds([...savedBookIds, bookToSave.bookId]);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+
 
     return (
         <div className="search">
