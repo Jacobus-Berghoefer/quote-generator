@@ -2,10 +2,16 @@ import express, { Request } from 'express';
 import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
 import path from 'path';
-import routes from "./routes/index.js";
+import { fileURLToPath } from 'url';
+//import routes from "./routes/index.js";
 import { typeDefs, resolvers } from './schemas/index.js';
 import { connectDB } from './config/connection.js';
 import { authenticateToken } from './services/auth.js';
+
+
+// ✅ Define __dirname manually for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Define the port the server will run on
 const PORT = process.env.PORT || 3001;
@@ -46,7 +52,7 @@ app.use(express.json()); // Ensures req.body is set
     })
   );  
   
-  app.use("/api", routes);
+  //app.use("/api", routes);
 
   // if we're in production, serve client/dist as static assets
   if (process.env.NODE_ENV === 'production') {
