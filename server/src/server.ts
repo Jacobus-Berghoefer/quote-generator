@@ -41,11 +41,11 @@ app.use(express.json()); // Ensures req.body is set
         const user = authenticateToken({ req });
 
         // Log authentication status
-        if (user) {
-          console.log("✅ User Authenticated:", user);
-        } else {
-          console.log("❌ No valid token found.");
-        }
+        // if (user) {
+        //   console.log("✅ User Authenticated:", user);
+        // } else {
+        //   console.log("❌ No valid token found.");
+        // }
 
         return { ...user }; // Attach user to context for resolvers
       },
