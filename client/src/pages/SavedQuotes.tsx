@@ -25,7 +25,9 @@ const SavedQuotes = () => {
   
     return (
       <section className="saved-quotes">
-        <h2>Your Saved Quotes</h2>
+        <h2 className="old-standard-tt-regular-italic result-title">
+          My Quotes
+        </h2>
         {userData && userData.savedQuotes && userData.savedQuotes.length > 0 ? (
           <div className="saved-quotes-container">
             {userData.savedQuotes.map((quote: any) => (
@@ -37,7 +39,9 @@ const SavedQuotes = () => {
             ))}
           </div>
         ) : (
-          <p>You haven't saved any quotes yet!</p>
+          <div className='saved-placeholder'>
+            <p>Save your favorite quotes here to keep you inspired.</p>
+          </div>
         )}
       </section>
     );

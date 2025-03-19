@@ -47,7 +47,7 @@ const Login = () => {
   return (
     <div className='form-container'>
       <form onSubmit={handleSubmit}>
-        <h1>Login</h1>
+        <p className='old-standard-tt-regular-italic login-register-title'>Login to Begin!</p>
         <div>
           <input
             placeholder="Username"
@@ -68,11 +68,13 @@ const Login = () => {
           />
         </div>
         <div>
-          <button type='submit'>
+          <button className='login-button' type='submit'>
             Login
           </button>
-          {error && <p className='error-message'>{error.message}</p>}
-          <p>or <Link to='/signup'> Register Now!</Link></p>
+          {error && <p className='error-message'>You must register first before logging in!</p>}
+          <div className='register-div'>
+          <p>or <Link to='/signup' className='old-standard-tt-bold register'> Register Here</Link></p>
+          </div>
         </div>
       </form>
     </div>

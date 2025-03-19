@@ -49,7 +49,7 @@ const signUp = () => {
   return (
     <div className='form-container'>
       <form className='form login-form' onSubmit={handleSubmit}>
-        <h1>Sign Up</h1>
+      <p className='old-standard-tt-regular-italic login-register-title'>Register to Begin!</p>
         <div className='form-group'>
           <input
             placeholder='Username'
@@ -81,8 +81,8 @@ const signUp = () => {
           />
         </div>
         <div className='form-group'>
-          <button className='btn btn-primary' type='submit'>
-            Sign Up
+          <button className='login-button' type='submit'>
+            Register
           </button>
           <p className='error-message'>{error && error.message}</p>
         </div>

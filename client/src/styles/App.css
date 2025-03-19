@@ -370,12 +370,10 @@ button:hover {
   75%  {background-color:rgb(0, 0, 0); color: white}
 }
 
-
 .footer {
   display: flex;
   justify-content: space-between;
   margin: 20px 5px 0px 5px;
-  align-self:
 }
 
 .footer > p {
@@ -425,4 +423,49 @@ blockquote {
 
 .number-button {
   margin-right: 20px;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+}
+
+input {
+  margin-bottom: 10px;
+}
+
+.login-register-title {
+  font-size: larger;
+}
+
+.login-button {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.register {
+  text-decoration: none;
+  color:   rgb(97, 97, 97)
+}
+
+@keyframes rainbow-text {
+  0%   {color:rgb(0, 255, 255)}
+  25%  {color:rgb(255, 255, 0)}
+  50%  {color:rgb(255, 0, 255)}
+  75%  {color:rgb(0, 0, 0, .8)}
+}
+
+.register:hover {
+  animation: rainbow-text 1s infinite;
+}
+
+.register-div {
+  margin-top: 10px;
+}
+
+.saved-placeholder {
+  text-align: center;
 }
