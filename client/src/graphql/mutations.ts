@@ -35,3 +35,17 @@ mutation saveQuote($text: String!, $author: String!) {
   }
 }
 `;
+
+export const REMOVE_QUOTE = gql`
+mutation removeQuote($_id: ID!) {
+  removeQuote(_id: $_id) {
+    _id
+    username
+    savedQuotes {
+      _id
+      text
+      author
+    }
+  }
+}
+`;

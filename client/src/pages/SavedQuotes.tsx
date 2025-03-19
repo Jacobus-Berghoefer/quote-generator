@@ -3,10 +3,14 @@ import auth from '../utils/auth';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { GET_ME } from '../graphql/queries';
+import RemoveQuoteButton from '../components/RemoveQuoteButton';
+
 
 const SavedQuotes = () => {
-    const { loading, data } = useQuery(GET_ME);
-    const navigate = useNavigate();
+  const { loading, data } = useQuery(GET_ME, {
+    fetchPolicy: "network-only" // This ensures a fresh network request each time
+  });
+  const navigate = useNavigate();
   
     // Check if user is logged in, redirect to login if not
     useEffect(() => {
@@ -28,6 +32,7 @@ const SavedQuotes = () => {
               <div className="quote-result" key={quote._id}>
                 <blockquote>{quote.text}</blockquote>
                 <p>{quote.author}</p>
+                <RemoveQuoteButton quoteId={quote._id} />
               </div>
             ))}
           </div>
@@ -36,6 +41,6 @@ const SavedQuotes = () => {
         )}
       </section>
     );
-  };
+};
   
-  export default SavedQuotes;
+export default SavedQuotes;
