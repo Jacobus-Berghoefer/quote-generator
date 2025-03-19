@@ -465,3 +465,7 @@ input {
 .register-div {
   margin-top: 10px;
 }
+
+.saved-placeholder {
+  text-align: center;
+}
