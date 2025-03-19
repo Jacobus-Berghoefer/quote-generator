@@ -78,11 +78,16 @@ export const resolvers = {
 
   Mutation: {
     // Create a new user
-    addUser: async (_parent: any, { username, email, password }: { username: string; email: string; password: string }) => {
-      const user = await User.create({ username, email, password });
-      const token = signToken(username, email, user._id);
-      return { token, user };
-    },
+addUser: async (_parent: any, { username, email, password }: { username: string; email: string; password: string }) => {
+  // Add validation before creating user
+  if (!password || password.length < 8) {
+    throw new Error('Password must be at least 8 characters long');
+  }
+  
+  const user = await User.create({ username, email, password });
+  const token = signToken(username, email, user._id);
+  return { token, user };
+},
 
     // Login existing user
     login: async (_parent: any, { username, password }: { username: string; password: string }) => {
