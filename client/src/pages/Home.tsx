@@ -6,6 +6,7 @@ import { GET_RANDOM_QUOTE } from "../graphql/queries";
 import { useQuery } from "@apollo/client";
 // import { useEffect } from "react";
 import { useLazyQuery } from "@apollo/client";
+import hand from "../assets/downHand.png"
 
 const Home = (_props:any) => {
     let navigate = useNavigate();
@@ -41,34 +42,34 @@ const Home = (_props:any) => {
     return (
       <>
      
-        <section className="daily-quote">
+        <section className="daily-quote quote">
             <div>
-                <p>{quote.text}</p>
-                <p>{quote.author}</p>
+                <p className="old-standard-tt-regular daily-quote-text">{quote.text}</p>
+                <p className="old-standard-tt-regular-italic author">- {quote.author}</p>
             </div>
         </section>
+        <section className="welcome">
+            <p className="old-standard-tt-regular">Welcome to Quotes for Days, where inspiration is at your fingertips.</p>
+            <p>Try it for yourself</p>
+
+        </section>
+
 {data && (
-        <section className="random-quote">
+        <section className="random-quote quote">
             <div>
-                <p>{randomQuote.text}</p>
-                <p>{randomQuote.author}</p>
+                <p className="random-text">{randomQuote.text}</p>
+                <p className="random-author">- {randomQuote.author}</p>
                 <button onClick={() => getRandomQuote()}>Randomize</button>
             </div>
         </section>
 )}
-        {/* <section className="flicker">
-          <div className="el">
-            <blockquote>{dailyQuote.q}</blockquote>
-                <p>{dailyQuote.a}</p>
-          </div>
-
+        <section className="more-fun">
+            <p className="old-standard-tt-regular-italic">More Fun Below!</p>
+            <div className="hand-div">
+            <img src={hand} alt="hand" className="hand"/>
+            </div>
+            
         </section>
-
-        <div className="infinity">
-                <blockquote>{randomQuote.q}</blockquote>
-                <p>{dailyQuote.a}</p>
-                <button className="random-quote-button" onClick={() => fetchRandomQuote()}>Get Another</button>
-            </div> */}
 
         <section className="falling-lines">
           <div className="lines">
@@ -84,6 +85,10 @@ const Home = (_props:any) => {
             <p>YOU</p>
             <p>?</p>
           </div>
+        </section>
+
+        <section className="suggestion">
+            <p className="old-standard-tt-regular-italic">Make a Choice!</p>
         </section>
 
         <section className="category-btns">

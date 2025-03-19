@@ -55,7 +55,7 @@ input::placeholder {
 
 button {
   border: 1px solid #000;
-  background-color: #ffffff;
+  background-color: rgba(25, 25, 25, .0)
 }
 
 .login-btn {
@@ -69,11 +69,117 @@ button {
   padding: 5px
 } */
 
+.daily-quote {
+  padding: 50px;
+  margin-top: 10vh;
+  height: 65vh;
+  background-image: url(../assets/roman_bust.png);
+  background-size: contain; /* Shrinks the image so the entire image fits inside the div */
+  background-position: right center; /* Aligns the image to the right and centers it vertically */
+  background-repeat: no-repeat; /* Ensures the image does not repeat */
+  background-color: rgba(255, 255, 255, 0.6); /* White background with 50% opacity */
+  background-blend-mode: overlay; /* Blend the overlay and image */
+  text-align: left;
+}
+
+.daily-quote-text {
+font-size: clamp(30pt, 7vw, 90pt);
+}
+
+.author {
+  font-size: 30pt;
+}
+
+.welcome {
+  background-color:rgba(213, 213, 213, 0.5);
+  height: 50vh;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+}
+
+.welcome >p:first-child {
+  font-size: clamp(14pt, 2vw, 50pt);
+}
+
+.random-quote {
+  text-align: right;
+  padding: 50px;
+  height: 65vh;
+  background-image: url(../assets/twoHands.PNG);
+  background-size: contain; /* Shrinks the image so the entire image fits inside the div */
+  background-position: left center; /* Aligns the image to the right and centers it vertically */
+  background-repeat: no-repeat; /* Ensures the image does not repeat */
+  background-color:rgba(183, 183, 183, 0.6);; /* White background with 50% opacity */
+  background-blend-mode: overlay; /* Blend the overlay and image */
+  display: flex;
+  justify-content: right;
+}
+
+.random-quote div {
+  width: 50vw;
+}
+
+.random-text {
+  margin-top: 30px;
+  font-size: clamp(14pt, 2vw, 50pt);
+}
+
+.random-author {
+  font-style: italic;
+}
+
+.old-standard-tt-regular {
+  font-family: "Old Standard TT", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.old-standard-tt-bold {
+  font-family: "Old Standard TT", serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.old-standard-tt-regular-italic {
+  font-family: "Old Standard TT", serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.more-fun {
+  display: flex;
+  flex-direction: column;
+  background-color:rgba(134, 134, 134, 0.6);
+  font-size: clamp(14pt, 2vw, 50pt);
+  align-items: center;
+  padding-top: 8vh;
+  padding-bottom: 8vh;
+}
+
+.hand-div {
+  position: relative;
+  animation-name: example;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+}
+
+.hand {
+  height: 10vh;
+}
+
+@keyframes example {
+  0%   {top:0px;}
+  50% {top:10px}
+  100% {top:0px;}
+}
+
                  /* falling lines */
 
   .falling-lines {
-    width: 100vw;
-    height: 50vh;
+    width: 99vw;
+    height: 70vh;
     background-color: #000000;
     color: #000;
     line-height: 1.6;
@@ -92,7 +198,7 @@ button {
     right: 0;
     height: 100%;
     /* margin: auto; */
-    width: 100vw;
+    width: vw;
     padding: 0
   }
   
@@ -138,14 +244,6 @@ button {
     background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #ff00ff 75%, #ff00ff 100%);
   }
 
-  /* .line:nth-child(4) {
-    margin-left: 15%;
-  }
-
-  .line:nth-child(4)::after {
-    animation-delay: 1.5s;
-  } */
-  
   @keyframes drop {
     0% {
       top: -50%;
@@ -158,18 +256,97 @@ button {
   .text-div {
     display: flex;
     justify-content: space-around;
+    height: 70vh;
+    align-items: center;
   }
 
   .text-div > p {
     color: white;
     font-size: larger;
-    margin-top: 200px;
     font-family: 'Courier New', Courier, monospace;
   }
 
   .text-div p:nth-child(3){
     margin-right: 30px;
   }
+
+  /* Cool infinite background scrolling animation */
+/* Exo thin font from Google. */
+
+/* Animations */
+@-webkit-keyframes bg-scrolling-reverse {
+  100% { background-position: 50px 50px; }
+}
+@-moz-keyframes bg-scrolling-reverse {
+  100% { background-position: 50px 50px; }
+}
+@-o-keyframes bg-scrolling-reverse {
+  100% { background-position: 50px 50px; }
+}
+@keyframes bg-scrolling-reverse {
+  100% { background-position: 50px 50px; }
+}
+
+@-webkit-keyframes bg-scrolling {
+  0% { background-position: 50px 50px; }
+}
+@-moz-keyframes bg-scrolling {
+  0% { background-position: 50px 50px; }
+}
+@-o-keyframes bg-scrolling {
+  0% { background-position: 50px 50px; }
+}
+@keyframes bg-scrolling {
+  0% { background-position: 50px 50px; }
+}
+
+.suggestion {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(14pt, 1.5vw, 40pt);
+  margin-top: 40px;
+}
+
+
+/* Main styles */
+body {
+  background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAIAAACRXR/mAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAABnSURBVHja7M5RDYAwDEXRDgmvEocnlrQS2SwUFST9uEfBGWs9c97nbGtDcquqiKhOImLs/UpuzVzWEi1atGjRokWLFi1atGjRokWLFi1atGjRokWLFi1af7Ukz8xWp8z8AAAA//8DAJ4LoEAAlL1nAAAAAElFTkSuQmCC") repeat 0 0;
+  -webkit-animation: bg-scrolling-reverse 0.92s infinite; 
+  /* Safari 4+ */
+  -moz-animation: bg-scrolling-reverse 0.92s infinite; 
+  /* Fx 5+ */
+  -o-animation: bg-scrolling-reverse 0.92s infinite; 
+  /* Opera 12+ */
+  animation: bg-scrolling-reverse 0.92s infinite; 
+  /* IE 10+ */
+  -webkit-animation-timing-function: linear;
+  -moz-animation-timing-function: linear;
+  -o-animation-timing-function: linear;
+  animation-timing-function: linear;
+  overflow:scroll
+}
+
+  @keyframes drop {
+    0% {
+      top: -50%;
+    }
+    100% {
+      top: 110%;
+    }
+  }
+
+  /* .line:nth-child(4) {
+    margin-left: 15%;
+  }
+
+  .line:nth-child(4)::after {
+    animation-delay: 1.5s;
+  } */
+  
+
+
+
 
 .category-btns {
   display: grid;
@@ -197,7 +374,6 @@ button:hover {
 .footer {
   display: flex;
   justify-content: space-between;
-  background-color: #000;
   margin: 20px 5px 0px 5px;
   align-self:
 }
@@ -205,6 +381,13 @@ button:hover {
 .footer > p {
   color: white;
   margin: 0%;
+  flex-grow: 1;
+  background-color: #000;
+  text-align: center;
+}
+
+.footer > button {
+  background-color: transparent
 }
 
                     /* flicker background*/
