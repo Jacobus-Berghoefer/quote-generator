@@ -120,18 +120,26 @@ export const resolvers = {
 
     // Remove a quote from user's collection
     removeQuote: async (_parent: any, { _id }: { _id: string }, context: any) => {
-      if (context.user) {
+      // Check if user is authenticated
+      if (!context.user) {
+        throw new AuthenticationError('You need to be logged in to remove quotes');
+      }
+      
+      try {
+        // Find the user and pull the quote from their savedQuotes array
         const updatedUser = await User.findOneAndUpdate(
           { _id: context.user._id },
-          { $pull: { savedQuotes: _id } },
+          { $pull: { savedQuotes: _id } },  // Changed from { _id } to _id
           { new: true }
         ).populate('savedQuotes');
-
+        
         return updatedUser;
+      } catch (err) {
+        console.error('Error removing quote:', err);
+        throw new Error('Failed to remove quote');
       }
-      throw new AuthenticationError('You need to be logged in!');
-    }
-  }
+    },
+  },
 };
 
 interface IZenQuoteDTO {
