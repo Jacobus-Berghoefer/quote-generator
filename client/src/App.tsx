@@ -35,6 +35,18 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+// const body = document.querySelector('body');
+
+// // Add event listener for mouse movement
+// document.addEventListener('mousemove', (event) => {
+//   // Calculate position relative to the viewport
+//   const x = (event.clientX / window.innerWidth) * 100; // Percentage of horizontal position
+//   const y = (event.clientY / window.innerHeight) * 100; // Percentage of vertical position
+
+//   // Adjust the background's position based on mouse position
+//   body!.style.transform = `translate(${-50 + x / 10}%, ${-50 + y / 10}%)`;
+// });
+
 function App() {
 
     const [searchTerm, setSearchTerm] = useState('')
