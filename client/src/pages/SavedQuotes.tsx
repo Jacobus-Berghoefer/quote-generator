@@ -21,7 +21,7 @@ const SavedQuotes = () => {
   
     return (
       <section className="saved-quotes">
-        <h2>Your Saved Quotes</h2>
+        <h2 className="old-standard-tt-regular-italic result-title">My Quotes</h2>
         {userData && userData.savedQuotes && userData.savedQuotes.length > 0 ? (
           <div className="saved-quotes-container">
             {userData.savedQuotes.map((quote: any) => (
