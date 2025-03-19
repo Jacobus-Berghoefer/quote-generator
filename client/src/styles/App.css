@@ -390,49 +390,39 @@ button:hover {
   background-color: transparent
 }
 
-                    /* flicker background*/
-/* @font-face {
-    font-family: "Geist";
-    src: url("https://assets.codepen.io/605876/GeistVF.ttf") format("truetype");
-  } */
-  
-  /* .flicker {
-    display: grid;
-    place-items: center;
-    min-height: 100vh;
-    background: hsl(0, 0%, 0%);
-    --size: 20px;
-    box-sizing: border-box;
-  }
-  
-  .el {
-    background: conic-gradient(from 180deg at 50% 70%,hsla(0,0%,98%,1) 0deg,#eec32d 72.0000010728836deg,#ec4b4b 144.0000021457672deg,#709ab9 216.00000858306885deg,#4dffbf 288.0000042915344deg,hsla(0,0%,98%,1) 1turn);
-    width: 100%;
-    height: 100%;
-    mask:
-      radial-gradient(circle at 50% 50%, white 2px, transparent 2.5px) 50% 50% / var(--size) var(--size),
-      url("https://assets.codepen.io/605876/noise-mask.png") 256px 50% / 256px 256px;
-    mask-composite: intersect;
-    animation: flicker 20s infinite linear;
+.search {
+  margin: 30px
+}
 
-  }
-  
-.test {
-    top: 10%;
-    left: 10%;
-    translate: -50% -2000%;
-    margin: 0;
-    font-family: "Geist", sans-serif;
-    font-weight: 140;
-    /* color: hsl(0, 100%, 50%); */
-    /* mix-blend-mode: soft-light;
-    filter: drop-shadow(0 0 2px rgb(255, 255, 255));
-    text-shadow: 2px 2px rgb(255, 255, 255);
-    color: rgb(255, 255, 255);
-  }
-  
-  @keyframes flicker {
-    to {
-      mask-position: 50% 50%, 0 50%;
-    }
-  }  */
+.result-title {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.quote-result {
+  text-align: center;
+}
+
+blockquote {
+  font-size: large;
+}
+
+.quote-result:nth-child(2n) {
+  background: radial-gradient( circle, 
+  rgba(206, 206, 206, 0.8) 0%,  
+  rgba(255, 255, 255, 0.8) 50%
+  );
+  margin-bottom: 30px;
+}
+
+.quote-result:nth-child(2n+1) {
+  margin-bottom: 30px;
+}
+
+.numbers {
+  text-align: center;
+}
+
+.number-button {
+  margin-right: 20px;
+}
