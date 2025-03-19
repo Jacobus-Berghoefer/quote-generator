@@ -84,16 +84,12 @@ const SearchResults = () => {
 
 
     return (
-        <div className="search">
-            <div>
-            <h2>Search results for "{value || search.split("=")[1]}"</h2>
-            <div className='eats-container search-results'> 
-                <div className='myeats-card'>
-                <PaginatedList items={quotes} />
-                </div>
-            </div>
-            </div>
-        </div>
+      <div className="search">
+        <h2 className="old-standard-tt-regular-italic result-title">
+          Results for "{value || search.split("=")[1]}"
+        </h2>
+        <PaginatedList items={quotes} />
+      </div>
     );
 };
 
