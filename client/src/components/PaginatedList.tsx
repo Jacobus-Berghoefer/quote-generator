@@ -36,7 +36,7 @@ const PaginatedList: React.FC<Props> = ({ items }) => {
       {currentItems.map(item => (
         <div className='quote-result' key={uuidv4()}>
             <blockquote className='old-standard-tt-regular'>{item.text}</blockquote>
-            <p>{item.author}</p>
+            <p>- {item.author}</p>
             <SaveQuoteButton _id={String(item._id)} text={String(item.text)} author={String(item.author)} />
         </div>
       ))}

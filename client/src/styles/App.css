@@ -1,5 +1,6 @@
 body {
-  font-family:'Courier New', Courier, monospace
+  font-family:'Courier New', Courier, monospace;
+  overflow: scroll;
 }
 
 .layout {
@@ -9,7 +10,7 @@ body {
 }
 
 .content {
-  flex: 1
+  flex-grow: 1;
 }
 
 .custom-navbar {
@@ -38,8 +39,8 @@ h1 {
 }
 
 input {
-  width: 800px;
-  margin-right: 100px;
+  width: 400px;
+  margin-bottom: 10px;
   text-align: center;
   font-weight: 900;
 }
@@ -97,10 +98,11 @@ font-size: clamp(30pt, 7vw, 90pt);
   justify-content: space-around;
   align-items: center;
   flex-direction: column;
+  text-align: center;
 }
 
 .welcome >p:first-child {
-  font-size: clamp(14pt, 2vw, 50pt);
+  font-size: clamp(20pt, 2vw, 50pt);
 }
 
 .random-quote {
@@ -178,7 +180,7 @@ font-size: clamp(30pt, 7vw, 90pt);
                  /* falling lines */
 
   .falling-lines {
-    width: 99vw;
+    width: 99.2vw;
     height: 70vh;
     background-color: #000000;
     color: #000;
@@ -198,7 +200,6 @@ font-size: clamp(30pt, 7vw, 90pt);
     right: 0;
     height: 100%;
     /* margin: auto; */
-    width: vw;
     padding: 0
   }
   
@@ -324,7 +325,6 @@ body {
   -moz-animation-timing-function: linear;
   -o-animation-timing-function: linear;
   animation-timing-function: linear;
-  overflow:scroll
 }
 
   @keyframes drop {
@@ -344,9 +344,6 @@ body {
     animation-delay: 1.5s;
   } */
   
-
-
-
 
 .category-btns {
   display: grid;
@@ -399,6 +396,7 @@ button:hover {
 
 .quote-result {
   text-align: center;
+  padding: 5px;
 }
 
 blockquote {
@@ -408,7 +406,7 @@ blockquote {
 .quote-result:nth-child(2n) {
   background: radial-gradient( circle, 
   rgba(206, 206, 206, 0.8) 0%,  
-  rgba(255, 255, 255, 0.8) 50%
+  rgba(255, 255, 255, 0) 60%
   );
   margin-bottom: 30px;
 }
@@ -431,10 +429,6 @@ blockquote {
   justify-content: center;
   align-items: center;
   height: 50vh;
-}
-
-input {
-  margin-bottom: 10px;
 }
 
 .login-register-title {
@@ -468,4 +462,91 @@ input {
 
 .saved-placeholder {
   text-align: center;
+}
+
+.about-container {
+  display: flex;
+  height: 50vh;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.about {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  height: 80vh
+}
+
+.about-card {
+  flex: 1;
+  margin: 0px 20px 0px 20px;
+  position: relative;
+  transition: transform 1s ease;      
+}
+
+.about-card img {
+  height: 20vh;
+  background-color: rgb(0, 0, 0, .4);
+  border-radius: 50%;
+  float: left;
+  margin-right: 5px;
+}
+
+.about-card  p {
+  opacity: 0;  
+  transition: opacity .7s ease;  
+}
+
+.about-card:hover p {
+  opacity: 1
+}
+
+.about-card:hover {
+  transform: translateY(-50px)
+}
+
+@media only screen and (max-width: 600px) {
+  .category-btns {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .falling-lines {
+    height: 30vh;
+  }
+
+  .text-div {
+    height: 30vh;
+  }
+
+  .text-div :nth-child(4){
+    margin-right: 20px;
+  }
+
+  .random-box {
+    background: radial-gradient(
+      circle, 
+      rgba(255, 255, 255, 0.8),  /* Light gray at the origin */
+      rgba(203, 203, 203, 0.4)         /* Black at the edges */
+    );
+    background-position: bottom left; /* Start the gradient in the upper-right corner */
+    background-size: 100% 150%; /* Control the spread size of the gradient */
+    padding: 5px;
+  }
+
+  .about-container {
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .about-title {
+    margin-bottom: 80px;
+  }
+
+  .footer {
+    margin-top: 720px;
+  }
+
 }
