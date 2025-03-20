@@ -51,12 +51,11 @@ const Home = (_props:any) => {
         <section className="welcome">
             <p className="old-standard-tt-regular">Welcome to Quotes for Days, where inspiration is at your fingertips.</p>
             <p>Try it for yourself</p>
-
         </section>
 
 {data && (
         <section className="random-quote quote">
-            <div>
+            <div className="random-box">
                 <p className="random-text">{randomQuote.text}</p>
                 <p className="random-author">- {randomQuote.author}</p>
                 <button onClick={() => getRandomQuote()}>Randomize</button>
