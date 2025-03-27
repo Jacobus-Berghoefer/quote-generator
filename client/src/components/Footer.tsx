@@ -1,9 +1,12 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Footer: React.FC = () => {
+  const navigate = useNavigate();
+  
   return (
     <footer className="footer">
-      <button onClick={() => window.open("/about", "_blank")}>About Us</button>
+      <button onClick={() => navigate("/about")}>About Us</button>
 
       <p>Copyright by Quotes for Days 2025</p>
 

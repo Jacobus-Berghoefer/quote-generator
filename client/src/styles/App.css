@@ -84,7 +84,7 @@ button {
 }
 
 .daily-quote-text {
-font-size: clamp(30pt, 7vw, 90pt);
+  font-size: clamp(30pt, 6vw, 80pt);
 }
 
 .author {
